@@ -6,6 +6,12 @@ import { getYMDDate } from "../util/timeUtil";
 import Card from "../components/Card";
 
 interface Props {}
+
+export interface Plan {
+  contents?: any;
+  creationTime?: string;
+  id?: string;
+}
 const ListPlanPage = ({}: Props) => {
   const [value, setValue] = useState<Date>(new Date());
 
@@ -19,29 +25,18 @@ const ListPlanPage = ({}: Props) => {
 
   const [planList, setPlanList] = useState<
     {
+      id: string;
       name: string;
-      plan: string;
-      time: string;
+      email: string;
+      plan: Plan[];
     }[]
   >();
   const init = async () => {
     // TODO 리스트 받아오기
-    // const res = await axios.get(api.temp());
+    const res = await axios.get(api.getAllPlan());
 
-    const res = [
-      {
-        name: "박현선",
-        plan: "plan",
-        time: "07:02",
-      },
-      {
-        name: "홍길동",
-        plan: "plan",
-        time: "07:02",
-      },
-    ];
-
-    setPlanList(res);
+    console.log(res.data);
+    setPlanList(res.data);
   };
 
   useEffect(() => {

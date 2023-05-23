@@ -25,7 +25,7 @@ const router = createBrowserRouter([
   },
 ]);
 
-// setInitAxioSetting();
+setInitAxioSetting();
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

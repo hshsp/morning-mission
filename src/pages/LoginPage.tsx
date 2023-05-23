@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled, { css } from "styled-components";
 
 import { useNavigate } from "react-router-dom";
@@ -7,39 +7,45 @@ import Button from "../components/Button";
 
 import * as api from "../network/api";
 import axios from "axios";
-import { Cookies, useCookies } from "react-cookie";
 
 interface Props {}
 const LoginPage = ({}: Props) => {
   const navigate = useNavigate();
+
+  const [email, setEmail] = useState<string>();
+  const [password, setPassword] = useState<string>();
   return (
     <Root>
       <Container>
         <div className="title">로그인</div>
         <Gap gap={20} />
-        <Input width={353} placeholder="메일주소를 입력해주세요." />
+        <Input
+          width={353}
+          placeholder="메일주소를 입력해주세요."
+          onChange={(input) => setEmail(input)}
+        />
         <Gap gap={10} />
-        <Input width={353} placeholder="비밀번호를 입력해주세요." />
+        <Input
+          width={353}
+          password={true}
+          placeholder="비밀번호를 입력해주세요."
+          onChange={(input) => setPassword(input)}
+        />
         <Gap gap={90} />
         <Button
           onClick={async () => {
-            const res = await axios.post(
-              api.login(),
-              {
-                email: "hyun407407407@gmail.com",
-                password: "1234",
-              },
-              {
-                withCredentials: true,
-              }
-            );
+            try {
+              const res = await axios.post(api.login(), {
+                email: email,
+                password: password,
+              });
 
-            // console.log(res);
-            // const cookies = new Cookies();
-            // cookies.set("user", res.data.user, {
-            //   path: "/",
-            // });
-            navigate("/write-plan");
+              console.log(res);
+
+              navigate("/write-plan");
+            } catch (e) {
+              alert("로그인 실패");
+            }
           }}
           text="로그인"
         />

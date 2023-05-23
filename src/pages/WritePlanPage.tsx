@@ -9,11 +9,13 @@ import Textarea from "../components/Textarea";
 import Button from "../components/Button";
 import Clock from "../components/Clock";
 import { Cookies, useCookies } from "react-cookie";
+import { getYMDHM } from "../util/timeUtil";
 
 interface Props {}
 const WritePlanPage = ({}: Props) => {
   const [value, setValue] = useState<Date>(new Date());
-  // const [cookies, setCookie, removeCookie] = useCookies(["myInfo"]);
+
+  const [planString, setPlanString] = useState<string>("");
 
   useEffect(() => {
     const interval = setInterval(() => setValue(new Date()), 1000);
@@ -23,9 +25,6 @@ const WritePlanPage = ({}: Props) => {
     };
   }, []);
 
-  useEffect(() => {
-    console.log(document.cookie);
-  }, []);
   const navigate = useNavigate();
   return (
     <Root>
@@ -35,23 +34,19 @@ const WritePlanPage = ({}: Props) => {
         <Textarea
           placeholder="오늘의 계획을 50자 이상 입력해주세요."
           width={353}
+          onChange={(input) => setPlanString(input)}
         />
 
         <Gap gap={20} />
         <Button
+          disabled={planString.length < 50}
           onClick={async () => {
-            // TODO 계획 제출
-            const res = await axios.post(
-              api.postPlan(),
-              {
-                creationTime: "2023-05-18 17:00",
-                contents: {
-                  plan: "plan33",
-                },
+            const res = await axios.post(api.postPlan(), {
+              creationTime: getYMDHM(new Date()),
+              contents: {
+                plan: planString,
               },
-              { withCredentials: true }
-            );
-            // setCookie("myInfo", res.data);
+            });
 
             navigate("/list-plan");
           }}

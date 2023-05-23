@@ -1,12 +1,15 @@
 import React from "react";
 import styled, { css } from "styled-components";
+import { Plan } from "../pages/ListPlanPage";
+import { exportTimeFromDate } from "../util/timeUtil";
 
 interface Props {
   width?: string | number;
   data?: {
-    name: string;
-    plan: string;
-    time: string;
+    id?: string;
+    name?: string;
+    email?: string;
+    plan?: Plan[];
   };
 }
 const Card = (props: Props) => {
@@ -20,12 +23,26 @@ const Card = (props: Props) => {
             ? `${props.width}px`
             : "100%",
       }}
+      className="scroll__invisible"
     >
       <Label>
-        <Name>{props.data?.name}</Name>
-        <Time>12:04</Time>
+        <Name>{props.data?.name || ""}</Name>
+        <Time>
+          {exportTimeFromDate(
+            props.data &&
+              props.data.plan &&
+              props.data.plan.length > 0 &&
+              props.data.plan[0].creationTime
+              ? new Date(props.data?.plan[0].creationTime)
+              : new Date()
+          )}
+        </Time>
       </Label>
-      <Content>{props.data?.plan}</Content>
+      <Content>
+        {props.data?.plan &&
+          props.data?.plan.length > 0 &&
+          props.data.plan[0].contents.plan}
+      </Content>
     </Container>
   );
 };
@@ -55,7 +72,6 @@ const Time = styled.div`
   font-weight: 500;
   font-size: 14px;
   line-height: 130%;
-  /* or 18px */
 
   letter-spacing: -0.01em;
 
@@ -68,17 +84,22 @@ const Content = styled.div`
   font-weight: 400;
   font-size: 16px;
   line-height: 130%;
-  /* or 21px */
 
   letter-spacing: -0.01em;
 
   color: #333333;
 
   opacity: 0.7;
+
+  width: 100%;
+  white-space: normal;
+  word-break: break-word;
 `;
 
 const Container = styled.div`
   height: 160px;
+  max-height: 160px;
+  overflow: scroll;
 
   background: #dff1ff;
   border-radius: 10px;

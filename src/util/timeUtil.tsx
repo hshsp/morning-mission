@@ -36,3 +36,22 @@ export const getDayKorean = (value: Date) => {
       return "토요일";
   }
 };
+
+export const getYMDHM = (value: Date) => {
+  const utc = moment(value).utc();
+  const year = `${utc.year()}`.padStart(4, "0");
+  const month = `${utc.month() + 1}`.padStart(2, "0");
+  const date = `${utc.date()}`.padStart(2, "0");
+
+  const hour = `${utc.hour()}`.padStart(2, "0");
+  const min = `${utc.minute()}`.padStart(2, "0");
+
+  return `${year}-${month}-${date} ${hour}:${min}`;
+};
+
+export const exportTimeFromDate = (value: Date) => {
+  const hour = `${moment(value).hour()}`.padStart(2, "0");
+  const min = `${moment(value).minute()}`.padStart(2, "0");
+
+  return `${hour}:${min}`;
+};

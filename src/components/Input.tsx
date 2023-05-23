@@ -4,6 +4,7 @@ import styled, { css } from "styled-components";
 interface Props {
   width?: string | number;
   placeholder?: string;
+  password?: boolean;
   onChange?: (input: string) => void;
 }
 const Input = (props: Props) => {
@@ -19,6 +20,7 @@ const Input = (props: Props) => {
       }}
       placeholder={props.placeholder || "입력하세요."}
       onChange={(e) => props.onChange && props.onChange(e.target.value)}
+      type={props.password ? "password" : "text"}
     ></Container>
   );
 };
