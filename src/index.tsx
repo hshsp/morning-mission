@@ -1,15 +1,38 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import "./fonts/SUIT.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Login from "./pages/LoginPage";
+import WritePlanPage from "./pages/WritePlanPage";
+import ListPlanPage from "./pages/ListPlanPage";
+import { setInitAxioSetting } from "./network/api";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Login />,
+  },
+  {
+    path: "/write-plan",
+    element: <WritePlanPage />,
+  },
+  {
+    path: "/list-plan",
+    element: <ListPlanPage />,
+  },
+]);
+
+// setInitAxioSetting();
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 
