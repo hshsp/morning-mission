@@ -13,6 +13,23 @@ interface Props {
   };
 }
 const Card = (props: Props) => {
+
+  const getBacgroundColor = (creationTime?: string) => {
+
+    const date = new Date(creationTime || "");
+
+    const hour = date.getHours();
+    const min = date.getMinutes();
+    if(hour === 7 || hour === 8 || (hour === 9 && min === 0)) {
+      return "#DFF1FF";
+    }
+
+    if(hour === 9 || hour === 10 || hour === 11 || (hour === 12 && min === 0)) {
+      return "#D5EFE0";
+    }
+
+    return "#FFECEF";
+  }
   return (
     <Container
       style={{
@@ -22,26 +39,34 @@ const Card = (props: Props) => {
             : typeof props.width === "number"
             ? `${props.width}px`
             : "100%",
+            background: getBacgroundColor(props.data && props.data.plan && props.data.plan.length > 0 ? props.data?.plan[0].creationTime : undefined)
       }}
       className="scroll__invisible"
     >
       <Label>
         <Name>{props.data?.name || ""}</Name>
         <Time>
-          {exportTimeFromDate(
+          {props.data &&
+              props.data.plan &&
+              props.data.plan.length > 0 &&
+              props.data.plan[0].creationTime ? exportTimeFromDate(
             props.data &&
               props.data.plan &&
               props.data.plan.length > 0 &&
               props.data.plan[0].creationTime
               ? new Date(props.data?.plan[0].creationTime)
               : new Date()
-          )}
+          ) : ""}
         </Time>
       </Label>
-      <Content>
+      <Content style={{
+
+        opacity: props.data?.plan &&
+        props.data?.plan.length > 0 ? 0.7 : 0.3
+      }}>
         {props.data?.plan &&
-          props.data?.plan.length > 0 &&
-          props.data.plan[0].contents.plan}
+          props.data?.plan.length > 0 ?
+          props.data.plan[0].contents.plan : "아직 작성 전입니다."}
       </Content>
     </Container>
   );
@@ -76,6 +101,7 @@ const Time = styled.div`
   letter-spacing: -0.01em;
 
   color: #333333;
+  opacity: 0.3;
 `;
 
 const Content = styled.div`
@@ -89,7 +115,6 @@ const Content = styled.div`
 
   color: #333333;
 
-  opacity: 0.7;
 
   width: 100%;
   white-space: normal;

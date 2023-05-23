@@ -1,24 +1,47 @@
 import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { useNavigate } from "react-router-dom";
-import moment from "moment";
 import axios from "axios";
 import * as api from "./../network/api";
 import "react-clock/dist/Clock.css";
 import Textarea from "../components/Textarea";
 import Button from "../components/Button";
 import Clock from "../components/Clock";
-import { Cookies, useCookies } from "react-cookie";
 import { getYMDHM } from "../util/timeUtil";
 
 interface Props {}
 const WritePlanPage = ({}: Props) => {
   const [value, setValue] = useState<Date>(new Date());
 
-  const [planString, setPlanString] = useState<string>("");
+  const [planString, setPlanString]  = useState<string>("");
+  const [buttonText, setButtonText] = useState<string>("");
+  const [buttonBackgroundColor, setButtonBackgroundColor] = useState<string>("");
+
 
   useEffect(() => {
-    const interval = setInterval(() => setValue(new Date()), 1000);
+    const interval = setInterval(() => {
+      const date = new Date();
+      setValue(date);
+
+      const hour = date.getHours();
+      const min = date.getMinutes();
+
+      if(hour === 7 || hour === 8 || (hour === 9 && min === 0)) {
+        setButtonText("지금 인증하면 성공");
+        setButtonBackgroundColor("#2F80ED");
+        return;
+      }
+
+      if(hour === 9 || hour === 10 || hour === 11 || (hour === 12 && min === 0)) {
+        setButtonText("지금 인증하면 반절 성공");
+        setButtonBackgroundColor("#39CA76");
+        return;
+      }
+
+      setButtonText("지금 인증해도 실패");
+      setButtonBackgroundColor("#DF1525");
+
+    }, 1000);
 
     return () => {
       clearInterval(interval);
@@ -26,6 +49,8 @@ const WritePlanPage = ({}: Props) => {
   }, []);
 
   const navigate = useNavigate();
+
+  // const 
   return (
     <Root>
       <Container>
@@ -50,7 +75,8 @@ const WritePlanPage = ({}: Props) => {
 
             navigate("/list-plan");
           }}
-          text="지금 인증하면 성공"
+          text={buttonText}
+          backgroundColor={buttonBackgroundColor}
         />
       </Container>
     </Root>

@@ -5,6 +5,7 @@ interface Props {
   width?: string | number;
   text?: string;
   disabled?: boolean;
+  backgroundColor?: string;
   onClick?: () => void;
 }
 const Button = (props: Props) => {
@@ -17,7 +18,7 @@ const Button = (props: Props) => {
             : typeof props.width === "number"
             ? `${props.width}px`
             : "100%",
-        background: props.disabled ? "#CFCFCF" : "#2f80ed",
+        background: props.disabled ? "#CFCFCF" : (props.backgroundColor ||  "#2f80ed"),
         cursor: props.disabled ? "default" : "pointer",
         border: props.disabled ? "none" : "1px solid rgba(0, 0, 0, 0.15)",
       }}
