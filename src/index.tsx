@@ -10,6 +10,9 @@ import WritePlanPage from "./pages/WritePlanPage";
 import ListPlanPage from "./pages/ListPlanPage";
 import { setInitAxioSetting } from "./network/api";
 
+console.log(`ENV : ${process.env.REACT_APP_ENV}`);
+console.log(`CURRENT_VER : ${process.env.REACT_APP_CURRENT_VER}`);
+
 const router = createBrowserRouter([
   {
     path: "/",

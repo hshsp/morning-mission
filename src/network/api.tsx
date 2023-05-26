@@ -30,9 +30,8 @@ export const interceptor = () => {
 };
 
 export const setInitAxioSetting = () => {
-  const domain = "http://localhost:3005";
-  axios.defaults.baseURL = domain;
-  console.log(domain);
+  console.log(process.env.REACT_APP_API_DOMAIN);
+  axios.defaults.baseURL = process.env.REACT_APP_API_DOMAIN;
   interceptor();
 };
 
