@@ -6,6 +6,7 @@ interface Props {
   placeholder?: string;
   isPassword?: boolean;
   borderColor?: string;
+  maxLength?: number;
   onChange?: (input: string) => void;
 }
 const Input = (props: Props) => {
@@ -23,6 +24,7 @@ const Input = (props: Props) => {
       placeholder={props.placeholder || "입력하세요."}
       onChange={(e) => props.onChange && props.onChange(e.target.value)}
       type={props.isPassword ? "password" : "text"}
+      maxLength={props.maxLength || 500}
     />
   );
 };

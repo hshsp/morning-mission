@@ -59,7 +59,7 @@ const WritePlanPage = () => {
   const initPlan = () => {
     const emptyPlan: Plan = {
       time: "",
-      contents: "",
+      contentsString: "",
     };
     const emptyPlans: Plan[] = [];
     [...new Array(3)].forEach((item) => {
@@ -89,7 +89,7 @@ const WritePlanPage = () => {
     setPlans(newPlans);
 
     setIsConfirmable(
-      newPlans.filter((item) => !item.time || !item.contents).length === 0
+      newPlans.filter((item) => !item.time || !item.contentsString).length === 0
     );
   };
 
@@ -123,11 +123,12 @@ const WritePlanPage = () => {
           />
           <Input
             width={263}
-            placeholder="ㅇㅇ하기"
+            maxLength={20}
+            placeholder="ㅇㅇ하기(20자 이내)"
             onChange={(input) => {
               updatePlans(0, {
                 ...plans[0],
-                contents: input,
+                contentsString: input,
               });
             }}
           />
@@ -149,11 +150,12 @@ const WritePlanPage = () => {
           />
           <Input
             width={263}
-            placeholder="ㅇㅇ하기"
+            maxLength={20}
+            placeholder="ㅇㅇ하기(20자 이내)"
             onChange={(input) => {
               updatePlans(1, {
                 ...plans[1],
-                contents: input,
+                contentsString: input,
               });
             }}
           />
@@ -174,11 +176,12 @@ const WritePlanPage = () => {
           />
           <Input
             width={263}
-            placeholder="ㅇㅇ하기"
+            maxLength={20}
+            placeholder="ㅇㅇ하기(20자 이내)"
             onChange={(input) => {
               updatePlans(2, {
                 ...plans[2],
-                contents: input,
+                contentsString: input,
               });
             }}
           />

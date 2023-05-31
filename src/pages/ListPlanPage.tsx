@@ -4,15 +4,9 @@ import axios from "axios";
 import * as api from "./../network/api";
 import { getYMDDate } from "../util/timeUtil";
 import Card from "../components/Card";
+import { Plan, UserPlan } from "../types/types";
 
-interface Props {}
-
-export interface Plan {
-  contents?: any;
-  creationTime?: string;
-  id?: string;
-}
-const ListPlanPage = ({}: Props) => {
+const ListPlanPage = () => {
   const [value, setValue] = useState<Date>(new Date());
 
   useEffect(() => {
@@ -23,20 +17,37 @@ const ListPlanPage = ({}: Props) => {
     };
   }, []);
 
-  const [planList, setPlanList] = useState<
-    {
-      id: string;
-      name: string;
-      email: string;
-      plan: Plan[];
-    }[]
-  >();
+  const [planList, setPlanList] = useState<UserPlan[]>();
   const init = async () => {
-    // TODO 리스트 받아오기
-    const res = await axios.get(api.getAllPlan());
+    const res = (await axios.get(api.getAllPlan())).data;
 
-    console.log(res.data);
-    setPlanList(res.data);
+    console.log(res);
+
+    const defaultPlanList = res.map((item: any) => ({
+      ...item,
+      plan: item.plan.map((planItem: any) => {
+        const obj = planItem.contents;
+        const arr = [];
+        for (let key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            if (obj[key].time) {
+              arr.push(obj[key]);
+            } else if (obj[key].plan) {
+              arr.push({
+                time: "00:00",
+                contentsString: `${obj[key].plan}`,
+              });
+            }
+          }
+        }
+        return {
+          ...planItem,
+          contents: arr,
+        };
+      }),
+    }));
+    console.log(defaultPlanList);
+    setPlanList(defaultPlanList);
   };
 
   useEffect(() => {

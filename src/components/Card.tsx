@@ -1,16 +1,11 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { Plan } from "../pages/ListPlanPage";
 import { exportTimeFromDate } from "../util/timeUtil";
+import { Plan, UserPlan } from "../types/types";
 
 interface Props {
   width?: string | number;
-  data?: {
-    id?: string;
-    name?: string;
-    email?: string;
-    plan?: Plan[];
-  };
+  data?: UserPlan;
 }
 const Card = (props: Props) => {
   const getBacgroundColor = (creationTime?: string) => {
@@ -73,8 +68,16 @@ const Card = (props: Props) => {
           opacity: props.data?.plan && props.data?.plan.length > 0 ? 0.7 : 0.3,
         }}
       >
-        {props.data?.plan && props.data?.plan.length > 0
-          ? props.data.plan[0].contents.plan
+        {props.data?.plan &&
+        props.data?.plan.length > 0 &&
+        props.data.plan[0].contents &&
+        props.data.plan[0].contents.length > 0
+          ? [...props.data.plan[0].contents].map((item: Plan) => (
+              <PlanBlock>
+                <PlanTime>{item.time}</PlanTime>
+                <PlanString>{item.contentsString}</PlanString>
+              </PlanBlock>
+            ))
           : "아직 작성 전입니다."}
       </Content>
     </Container>
@@ -127,6 +130,10 @@ const Content = styled.div`
   width: 100%;
   white-space: pre-wrap;
   word-break: break-word;
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 `;
 
 const Container = styled.div`
@@ -141,6 +148,20 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+`;
+
+const PlanBlock = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+`;
+
+const PlanTime = styled.div`
+  width: 60px;
+`;
+
+const PlanString = styled.div`
+  flex: 1;
 `;
 
 export default Card;
