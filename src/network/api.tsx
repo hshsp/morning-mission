@@ -22,7 +22,7 @@ export const interceptor = () => {
       if (status === 401) {
         cookie.remove("acUserRefreshToken");
         cookie.remove("acUserAccessToken");
-        window.location.replace("/");
+        window.location.pathname !== "/" && window.location.replace("/");
       }
       return Promise.reject(error);
     }

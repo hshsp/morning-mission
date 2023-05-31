@@ -5,6 +5,7 @@ interface Props {
   width?: string | number;
   placeholder?: string;
   password?: boolean;
+  borderColor?: string;
   onChange?: (input: string) => void;
 }
 const Input = (props: Props) => {
@@ -17,18 +18,18 @@ const Input = (props: Props) => {
             : typeof props.width === "number"
             ? `${props.width}px`
             : "100%",
+        border: `1px solid ${props.borderColor || "rgba(0, 0, 0, 0.15)"}`,
       }}
       placeholder={props.placeholder || "입력하세요."}
       onChange={(e) => props.onChange && props.onChange(e.target.value)}
       type={props.password ? "password" : "text"}
-    ></Container>
+    />
   );
 };
 
 const Container = styled.input`
   border-radius: 10px;
   padding: 14px 16px;
-  border: 1px solid rgba(0, 0, 0, 0.15);
 
   font-family: "SUIT";
   font-style: normal;
