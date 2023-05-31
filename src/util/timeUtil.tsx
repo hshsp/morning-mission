@@ -1,10 +1,40 @@
 import moment from "moment";
 
+export const getYear = (value: Date) => {
+  const year = moment(value).year();
+
+  return `${year}`;
+};
+export const getMonth = (value: Date) => {
+  const month = moment(value).month() + 1;
+
+  return `${month}`;
+};
+export const getDate = (value: Date) => {
+  const date = moment(value).date();
+
+  return `${date}`;
+};
+
 export const getHM = (value: Date) => {
   const hour = moment(value).hour();
-  const min = moment(value).minute();
+  const correctedHour = `${hour === 12 ? 12 : (hour + 12) % 12}`.padStart(
+    2,
+    "0"
+  );
+  const min = moment(value).minute().toString().padStart(2, "0");
 
-  return `${hour === 12 ? 12 : (hour + 12) % 12}:${min}`;
+  return `${correctedHour}:${min}`;
+};
+
+export const getSecond = (value: Date) => {
+  const second = moment(value).second().toString().padStart(2, "0");
+
+  return second;
+};
+
+export const getAmPm = (value: Date) => {
+  return moment(value).hour() >= 12 ? "pm" : "am";
 };
 
 export const getYMDDate = (value: Date) => {

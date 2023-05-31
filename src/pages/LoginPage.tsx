@@ -30,7 +30,7 @@ const LoginPage = ({}: Props) => {
         <Gap gap={10} />
         <Input
           width={353}
-          password={true}
+          isPassword={true}
           placeholder="비밀번호를 입력해주세요."
           onChange={(input) => setPassword(input)}
           borderColor={isError ? "#DF1525" : undefined}
