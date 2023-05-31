@@ -37,6 +37,6 @@ export const setInitAxioSetting = () => {
 
 export const temp = (): string => `temp`;
 
-export const login = (): string => `/ac-user/login`;
+export const login = (): string => `/user/login`;
 export const postPlan = (): string => `/plan`;
 export const getAllPlan = (): string => `/plan/today/allUser`;
