@@ -40,3 +40,6 @@ export const temp = (): string => `temp`;
 export const login = (): string => `/user/login`;
 export const postPlan = (): string => `/plan`;
 export const getAllPlan = (): string => `/plan/today/allUser`;
+
+export const getMyPlan = (): string => `/plan/today/mine`;
+export const patchMyPlan = (): string => `/plan/today/mine`;

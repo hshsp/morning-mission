@@ -79,6 +79,10 @@ export const getYMDHM = (value: Date) => {
   return `${year}-${month}-${date} ${hour}:${min}`;
 };
 
+export const getISOStringUtc = (value: Date) => {
+  return moment(value).utc().toISOString();
+};
+
 export const exportTimeFromDate = (value: Date) => {
   const hour = `${moment(value).hour()}`.padStart(2, "0");
   const min = `${moment(value).minute()}`.padStart(2, "0");
