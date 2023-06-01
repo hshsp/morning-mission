@@ -32,10 +32,10 @@ const ListPlanPage = () => {
           if (obj.hasOwnProperty(key)) {
             if (obj[key].time) {
               arr.push(obj[key]);
-            } else if (obj[key].plan) {
+            } else {
               arr.push({
                 time: "00:00",
-                contentsString: `${obj[key].plan}`,
+                contentsString: `${obj[key]}`,
               });
             }
           }
