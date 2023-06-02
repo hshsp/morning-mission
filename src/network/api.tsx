@@ -40,6 +40,9 @@ export const temp = (): string => `temp`;
 export const login = (): string => `/user/login`;
 export const postPlan = (): string => `/plan`;
 export const getAllPlan = (): string => `/plan/today/allUser`;
+export const getAllPlanOthers = (): string => `/plan/today/others`;
 
 export const getMyPlan = (): string => `/plan/today/mine`;
+export const getMyPlanHistory = (): string => `/plan/history/mine`;
 export const patchMyPlan = (): string => `/plan/today/mine`;
+export const deleteMyPlan = (planId: number): string => `/plan/${planId}`;

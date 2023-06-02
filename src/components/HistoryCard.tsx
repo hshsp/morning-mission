@@ -1,14 +1,14 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { exportTimeFromDate } from "../util/timeUtil";
-import { Plan, UserPlan } from "../types/types";
+import { exportTimeFromDate, getDate, getMonth } from "../util/timeUtil";
+import { Plan, PlanContainer, UserPlan } from "../types/types";
 import { PxToVw } from "../util/styleUtil";
 
 interface Props {
   width?: string | number;
-  data?: UserPlan;
+  data?: PlanContainer;
 }
-const Card = (props: Props) => {
+const HistoryCard = (props: Props) => {
   const getBacgroundColor = (isSuccess?: number) => {
     switch (isSuccess) {
       case 1:
@@ -30,26 +30,24 @@ const Card = (props: Props) => {
             ? `${PxToVw(props.width)}`
             : "100%",
         background: getBacgroundColor(
-          props.data && props.data.plan && props.data.plan.length > 0
-            ? props.data?.plan[0].isSuccess
-            : undefined
+          props.data && props.data.isSuccess ? props.data.isSuccess : undefined
         ),
       }}
       className="scroll__invisible"
     >
       <Label>
-        <Name>{props.data?.name || ""}</Name>
+        <Name>
+          {props.data && props.data.creationTime
+            ? `${getMonth(new Date(props.data?.creationTime))}월 ${getDate(
+                new Date(props.data?.creationTime)
+              )}일`
+            : ""}
+        </Name>
         <Time>
-          {props.data &&
-          props.data.plan &&
-          props.data.plan.length > 0 &&
-          props.data.plan[0].creationTime
+          {props.data && props.data.creationTime
             ? exportTimeFromDate(
-                props.data &&
-                  props.data.plan &&
-                  props.data.plan.length > 0 &&
-                  props.data.plan[0].creationTime
-                  ? new Date(props.data?.plan[0].creationTime)
+                props.data && props.data.creationTime
+                  ? new Date(props.data.creationTime)
                   : new Date()
               )
             : ""}
@@ -57,20 +55,17 @@ const Card = (props: Props) => {
       </Label>
       <Content
         style={{
-          opacity: props.data?.plan && props.data?.plan.length > 0 ? 0.7 : 0.3,
+          opacity: props.data ? 0.7 : 0.3,
         }}
       >
-        {props.data?.plan &&
-        props.data?.plan.length > 0 &&
-        props.data.plan[0].contents &&
-        props.data.plan[0].contents.length > 0
-          ? [...props.data.plan[0].contents].map((item: Plan) => (
+        {props.data && props.data.contents && props.data.contents.length > 0
+          ? [...props.data.contents].map((item: Plan) => (
               <PlanBlock>
                 <PlanTime>{item.time}</PlanTime>
                 <PlanString>{item.contentsString}</PlanString>
               </PlanBlock>
             ))
-          : "아직 작성 전입니다."}
+          : "내용이 없습니다."}
       </Content>
     </Container>
   );
@@ -157,4 +152,4 @@ const PlanString = styled.div`
   flex: 1;
 `;
 
-export default Card;
+export default HistoryCard;
