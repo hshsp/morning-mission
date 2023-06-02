@@ -21,6 +21,13 @@ import { ReactSortable } from "react-sortablejs";
 
 import { ReactComponent as DragButton } from "../svg/DragButton.svg";
 import { PxToVw } from "../util/styleUtil";
+import {
+  SortableContainer,
+  SortableElement,
+  arrayMove,
+  SortableContainerProps,
+  SortableElementProps,
+} from "react-sortable-hoc";
 
 const WritePlanPage = () => {
   const navigate = useNavigate();
@@ -35,6 +42,15 @@ const WritePlanPage = () => {
       },
     }))
   );
+
+  const [items, setItems] = useState<string[]>([
+    "Item 1",
+    "Item 2",
+    "Item 3",
+    "Item 4",
+    "Item 5",
+    "Item 6",
+  ]);
 
   const [resultText, setResultText] = useState<string>("");
   const [resultColor, setResultColor] = useState<string>("");
@@ -111,26 +127,24 @@ const WritePlanPage = () => {
   };
 
   const initPlan = async () => {
-    const res = (await axios.get(api.getMyPlan())).data;
-
-    if (res) {
-      const defaultPlans = [];
-      const obj = res.contents;
-      for (let key in obj) {
-        defaultPlans.push({
-          id: `${key}`,
-          plan: obj[key].plan,
-        });
-      }
-      setPlans(defaultPlans);
-      defaultResult.current = res.isSuccess;
-
-      setIsConfirmable(
-        defaultPlans.filter(
-          (item) => !item.plan.time || !item.plan.contentsString
-        ).length === 0
-      );
-    }
+    // const res = (await axios.get(api.getMyPlan())).data;
+    // if (res) {
+    //   const defaultPlans = [];
+    //   const obj = res.contents;
+    //   for (let key in obj) {
+    //     defaultPlans.push({
+    //       id: `${key}`,
+    //       plan: obj[key].plan,
+    //     });
+    //   }
+    //   setPlans(defaultPlans);
+    //   defaultResult.current = res.isSuccess;
+    //   setIsConfirmable(
+    //     defaultPlans.filter(
+    //       (item) => !item.plan.time || !item.plan.contentsString
+    //     ).length === 0
+    //   );
+    // }
   };
 
   useEffect(() => {
@@ -158,6 +172,53 @@ const WritePlanPage = () => {
     );
   };
 
+  const SortableItem = SortableElement(
+    ({ value }: { value: any }) => <div>{value}</div>
+    // <TimeAndPlan key={plan.id}>
+    //   <Input
+    //     width={74}
+    //     placeholder="언제"
+    //     onChange={(input) => {
+    //       updatePlans(index, {
+    //         ...plans[index].plan,
+    //         time: input,
+    //       });
+    //     }}
+    //     value={plan.plan.time}
+    //   />
+    //   <ColumnGap gap={10} />
+    //   <Input
+    //     width={240}
+    //     maxLength={20}
+    //     placeholder="ㅇㅇ하기(20자 이내)"
+    //     onChange={(input) => {
+    //       updatePlans(index, {
+    //         ...plans[index].plan,
+    //         contentsString: input,
+    //       });
+    //     }}
+    //     value={plan.plan.contentsString}
+    //   />
+    //   <ColumnGap gap={5} />
+    //   <DragButton
+    //     className="handle"
+    //     style={{
+    //       cursor: "pointer",
+    //     }}
+    //   />
+    // </TimeAndPlan>
+  );
+
+  const SortableList: React.ComponentClass<
+    SortableContainerProps & { items: string[] },
+    any
+  > = SortableContainer(({ items }: { items: string[] }) => {
+    console.log(items);
+    return items.map((item: any, index: number) => (
+      <SortableItem index={index} />
+    ));
+  });
+
   return (
     <Root>
       <Container>
@@ -174,43 +235,7 @@ const WritePlanPage = () => {
         <Gap gap={12} />
         <Title>{`오늘의 가장 중요한 일\n3개를 작성해주세요`}</Title>
 
-        <ReactSortable list={plans} setList={setPlans} handle=".handle">
-          {plans.map((plan, index) => (
-            <TimeAndPlan key={plan.id}>
-              <Input
-                width={74}
-                placeholder="언제"
-                onChange={(input) => {
-                  updatePlans(index, {
-                    ...plans[index].plan,
-                    time: input,
-                  });
-                }}
-                value={plan.plan.time}
-              />
-              <ColumnGap gap={10} />
-              <Input
-                width={240}
-                maxLength={20}
-                placeholder="ㅇㅇ하기(20자 이내)"
-                onChange={(input) => {
-                  updatePlans(index, {
-                    ...plans[index].plan,
-                    contentsString: input,
-                  });
-                }}
-                value={plan.plan.contentsString}
-              />
-              <ColumnGap gap={5} />
-              <DragButton
-                className="handle"
-                style={{
-                  cursor: "pointer",
-                }}
-              />
-            </TimeAndPlan>
-          ))}
-        </ReactSortable>
+        <SortableList items={items} />
 
         <Gap gap={143} />
         <Button
