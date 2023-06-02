@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
+import { PxToVw } from "../util/styleUtil";
 
 interface Props {
   width?: string | number;
@@ -19,7 +20,7 @@ const Input = (props: Props) => {
           typeof props.width === "string"
             ? props.width
             : typeof props.width === "number"
-            ? `${props.width}px`
+            ? `${PxToVw(props.width)}`
             : "100%",
       }}
       borderColor={props.borderColor}
@@ -36,29 +37,30 @@ const Input = (props: Props) => {
 };
 
 const Container = styled.input<{ borderColor?: string }>`
-  border-radius: 10px;
-  padding: 14px 16px;
+  border-radius: ${PxToVw(10)};
+  padding: ${PxToVw(14)} ${PxToVw(16)};
 
   font-family: "SUIT";
   font-style: normal;
   font-weight: 400;
-  font-size: 16px;
+  font-size: ${PxToVw(16)};
   line-height: 130%;
   color: #333333;
-  border: 1px solid ${(props) => props.borderColor || "rgba(0, 0, 0, 0.15)"};
+  border: ${PxToVw(1)} solid
+    ${(props) => props.borderColor || "rgba(0, 0, 0, 0.15)"};
 
   box-sizing: border-box;
 
   &:focus {
     outline: none;
-    border: 1px solid #2f80ed;
+    border: ${PxToVw(1)} solid #2f80ed;
   }
 
   &::placeholder {
     font-family: "SUIT";
     font-style: normal;
     font-weight: 400;
-    font-size: 16px;
+    font-size: ${PxToVw(16)};
     line-height: 130%;
     color: rgba(51, 51, 51, 0.2);
   }

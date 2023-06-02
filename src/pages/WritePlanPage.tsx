@@ -20,6 +20,7 @@ import { Plan } from "../types/types";
 import { ReactSortable } from "react-sortablejs";
 
 import { ReactComponent as DragButton } from "../svg/DragButton.svg";
+import { PxToVw } from "../util/styleUtil";
 
 const WritePlanPage = () => {
   const navigate = useNavigate();
@@ -237,34 +238,34 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 393px;
-  padding: 20px;
+  width: ${PxToVw(393)};
+  padding: ${PxToVw(20)};
   box-sizing: border-box;
 `;
 
 const Gap = styled.div<{ gap: number }>`
-  height: ${(props) => props.gap}px;
+  height: ${(props) => PxToVw(props.gap)};
   width: 100%;
 `;
 
 const ColumnGap = styled.div<{ gap: number }>`
-  width: ${(props) => props.gap}px;
+  width: ${(props) => PxToVw(props.gap)};
   height: 100%;
 `;
 
 const TimeLabel = styled.div`
-  width: calc(100% + 40px);
+  width: calc(100% + ${PxToVw(40)});
   background: #f0f2f4;
   font-family: "SUIT";
   font-style: normal;
   font-weight: 400;
-  font-size: 14px;
-  line-height: 17px;
+  font-size: ${PxToVw(14)};
+  line-height: ${PxToVw(17)};
   letter-spacing: -0.01em;
 
   color: #636366;
 
-  padding: 10px 0;
+  padding: ${PxToVw(10)} 0;
 
   text-align: center;
 `;
@@ -274,8 +275,8 @@ const SuccessLabel = styled.div<{ color: string }>`
   font-family: "SUIT";
   font-style: normal;
   font-weight: 600;
-  font-size: 16px;
-  line-height: 20px;
+  font-size: ${PxToVw(16)};
+  line-height: ${PxToVw(20)};
   /* identical to box height */
 
   letter-spacing: -0.02em;
@@ -290,8 +291,8 @@ const Title = styled.pre`
   font-family: "SUIT";
   font-style: normal;
   font-weight: 400;
-  font-size: 28px;
-  line-height: 35px;
+  font-size: ${PxToVw(28)};
+  line-height: ${PxToVw(35)};
   letter-spacing: -0.025em;
 
   color: #333333;
@@ -302,13 +303,7 @@ const TimeAndPlan = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 10px;
-`;
-
-const FlexColumn = styled.div<{ gap: number }>`
-  display: flex;
-  flex-direction: column;
-  gap: ${(props) => props.gap}px;
+  padding: ${PxToVw(10)};
 `;
 
 export default WritePlanPage;

@@ -7,6 +7,7 @@ import Button from "../components/Button";
 
 import * as api from "../network/api";
 import axios from "axios";
+import { PxToVw } from "../util/styleUtil";
 
 interface Props {}
 const LoginPage = ({}: Props) => {
@@ -73,14 +74,14 @@ const Root = styled.div`
 `;
 
 const Container = styled.div`
-  width: 393px;
+  width: ${PxToVw(353)};
 
   .title {
     font-family: "SUIT";
     font-style: normal;
     font-weight: 400;
-    font-size: 28px;
-    line-height: 35px;
+    font-size: ${PxToVw(28)};
+    line-height: ${PxToVw(35)};
     /* identical to box height */
 
     letter-spacing: -0.01em;
@@ -94,7 +95,7 @@ const Container = styled.div`
 `;
 
 const Gap = styled.div<{ gap: number }>`
-  height: ${(props) => props.gap}px;
+  height: ${(props) => PxToVw(props.gap)};
   width: 100%;
 `;
 
@@ -102,8 +103,8 @@ const ErrorMessage = styled.div<{ isError?: boolean }>`
   font-family: "SUIT";
   font-style: normal;
   font-weight: 400;
-  font-size: 14px;
-  line-height: 22px;
+  font-size: ${PxToVw(14)};
+  line-height: ${PxToVw(22)};
   /* identical to box height, or 157% */
 
   letter-spacing: -0.01em;

@@ -1,5 +1,6 @@
 import React from "react";
 import styled, { css } from "styled-components";
+import { PxToVw } from "../util/styleUtil";
 
 interface Props {
   width?: string | number;
@@ -16,9 +17,11 @@ const Button = (props: Props) => {
           typeof props.width === "string"
             ? props.width
             : typeof props.width === "number"
-            ? `${props.width}px`
+            ? `${PxToVw(props.width)}`
             : "100%",
-        background: props.disabled ? "#CFCFCF" : (props.backgroundColor ||  "#2f80ed"),
+        background: props.disabled
+          ? "#CFCFCF"
+          : props.backgroundColor || "#2f80ed",
         cursor: props.disabled ? "default" : "pointer",
         border: props.disabled ? "none" : "1px solid rgba(0, 0, 0, 0.15)",
       }}
@@ -30,15 +33,15 @@ const Button = (props: Props) => {
 };
 
 const Container = styled.button`
-  border-radius: 10px;
+  border-radius: ${PxToVw(10)};
 
-  padding: 15px 20px;
+  padding: ${PxToVw(15)} ${PxToVw(20)};
 
   font-family: "SUIT";
   font-style: normal;
   font-weight: 500;
-  font-size: 16px;
-  line-height: 20px;
+  font-size: ${PxToVw(16)};
+  line-height: ${PxToVw(20)};
   /* identical to box height */
 
   letter-spacing: -0.01em;
