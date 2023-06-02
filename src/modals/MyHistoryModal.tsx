@@ -124,8 +124,7 @@ const MyHistoryModal = (props: Props) => {
 };
 
 const Container = styled.div`
-  min-height: ${PxToVw(774)};
-  max-height: ${PxToVw(774)};
+  max-height: 100vh;
   width: ${PxToVw(393)};
   background: rgba(250, 250, 250, 0.93);
   backdrop-filter: blur(40px);

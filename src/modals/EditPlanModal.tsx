@@ -78,7 +78,7 @@ const EditPlanModal = (props: Props) => {
       <Gap gap={12} />
       <Title>{`오늘의 가장 중요한 일\n3개를 작성해주세요`}</Title>
 
-      <ReactSortable list={plans} setList={setPlans} handle=".handle">
+      <ReactSortable list={plans} setList={setPlans} handle=".handle-edit">
         {plans.map((plan, index) => (
           <TimeAndPlan key={plan.id}>
             <Input
@@ -107,7 +107,7 @@ const EditPlanModal = (props: Props) => {
             />
             <ColumnGap gap={5} />
             <DragButton
-              className="handle"
+              className="handle-edit"
               style={{
                 cursor: "pointer",
               }}
@@ -128,13 +128,13 @@ const EditPlanModal = (props: Props) => {
 };
 
 const Container = styled.div`
-  min-height: ${PxToVw(774)};
+  min-height: min(${PxToVw(774)}, 600px);
   width: ${PxToVw(393)};
   background: rgba(250, 250, 250, 0.93);
   backdrop-filter: blur(40px);
 
-  border-radius: 13px 13px 0px 0px;
-  padding: 20px;
+  border-radius: ${PxToVw(13)} ${PxToVw(13)} ${PxToVw(0)} ${PxToVw(0)};
+  padding: ${PxToVw(20)};
   box-sizing: border-box;
 `;
 
@@ -148,8 +148,8 @@ const Top = styled.div`
     font-family: "SUIT";
     font-style: normal;
     font-weight: 600;
-    font-size: 18px;
-    line-height: 22px;
+    font-size: ${PxToVw(18)};
+    line-height: ${PxToVw(22)};
     letter-spacing: -0.025em;
 
     color: #333333;
@@ -163,7 +163,7 @@ const Top = styled.div`
 `;
 
 const Gap = styled.div<{ gap: number }>`
-  min-height: ${(props) => props.gap}px;
+  min-height: ${(props) => PxToVw(props.gap)};
   width: 100%;
 `;
 

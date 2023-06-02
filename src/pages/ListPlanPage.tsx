@@ -266,7 +266,9 @@ const Container = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: ${PxToVw(393)};
+  min-width: ${PxToVw(393)};
   max-height: calc(100%);
+
   padding: ${PxToVw(20)};
   box-sizing: border-box;
 `;
@@ -303,15 +305,15 @@ const RowSpaceBetween = styled.div`
 `;
 
 const ResultChip = styled.div<{ backgroundColor?: string }>`
-  padding: 8px 16px;
-  border-radius: 10px;
+  padding: ${PxToVw(8)} ${PxToVw(16)};
+  border-radius: ${PxToVw(10)};
   background: ${(props) => props.backgroundColor || "#2F80ED"};
 
   font-family: "SUIT";
   font-style: normal;
   font-weight: 600;
-  font-size: 14px;
-  line-height: 17px;
+  font-size: ${PxToVw(14)};
+  line-height: ${PxToVw(17)};
   letter-spacing: -0.02em;
 
   color: #ffffff;
@@ -321,15 +323,15 @@ const EditDeleteButtons = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 12px;
+  gap: ${PxToVw(12)};
 `;
 
 const EditDeleteButton = styled.button`
   font-family: "SUIT";
   font-style: normal;
   font-weight: 600;
-  font-size: 14px;
-  line-height: 17px;
+  font-size: ${PxToVw(14)};
+  line-height: ${PxToVw(17)};
   text-align: center;
   letter-spacing: -0.025em;
 
@@ -337,7 +339,7 @@ const EditDeleteButton = styled.button`
 
   opacity: 0.6;
 
-  border: 1px solid transparent;
+  border: ${PxToVw(1)} solid transparent;
   background: none;
   padding: 0;
 
@@ -345,16 +347,16 @@ const EditDeleteButton = styled.button`
 `;
 
 const ColumnDivider = styled.div<{ height: number }>`
-  width: 1px;
-  height: ${(props) => props.height}px;
+  width: ${PxToVw(1)};
+  height: ${(props) => PxToVw(props.height)};
   background: #333333;
   opacity: 0.1;
-  border-radius: 100px;
+  border-radius: ${PxToVw(100)};
 `;
 
 const RowDivider = styled.div<{ width?: number }>`
   min-height: 1px;
-  width: ${(props) => (props.width ? `${props.width}px` : "100%")};
+  width: ${(props) => (props.width ? `${PxToVw(props.width)}px` : "100%")};
   background: #333333;
   opacity: 0.1;
 `;
@@ -362,13 +364,13 @@ const RowDivider = styled.div<{ width?: number }>`
 const PlanBlock = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 20px;
+  gap: ${PxToVw(20)};
   width: 100%;
 
   font-family: "SUIT";
   font-style: normal;
   font-weight: 400;
-  font-size: 20px;
+  font-size: ${PxToVw(20)};
   line-height: 140%;
   /* identical to box height, or 28px */
 
@@ -381,7 +383,7 @@ const PlanBlock = styled.div`
 `;
 
 const PlanTime = styled.div`
-  width: 60px;
+  width: ${PxToVw(60)};
 `;
 
 const PlanString = styled.div`
@@ -392,9 +394,9 @@ const PlanWrittenTime = styled.div`
   font-family: "SUIT";
   font-style: normal;
   font-weight: 400;
-  font-size: 14px;
+  font-size: ${PxToVw(14)};
   line-height: 130%;
-  /* or 18px */
+  /* or ${PxToVw(18)} */
 
   letter-spacing: -0.025em;
 
@@ -404,16 +406,16 @@ const PlanWrittenTime = styled.div`
 `;
 
 const MyHistoryButton = styled.button`
-  border: 1px solid transparent;
+  border: ${PxToVw(1)} solid transparent;
   background: none;
   padding: 0;
 
   font-family: "SUIT";
   font-style: normal;
   font-weight: 600;
-  font-size: 14px;
+  font-size: ${PxToVw(14)};
   line-height: 130%;
-  /* or 18px */
+  /* or ${PxToVw(18)} */
 
   text-align: right;
   letter-spacing: -0.025em;
@@ -428,7 +430,7 @@ const List = styled.div`
   flex-direction: column;
   align-items: center;
 
-  gap: 10px;
+  gap: ${PxToVw(10)};
 `;
 
 export default ListPlanPage;

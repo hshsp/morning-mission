@@ -1,5 +1,6 @@
 import React from "react";
 import styled, { css } from "styled-components";
+import { PxToVw } from "../util/styleUtil";
 
 interface Props {
   title?: string;
@@ -39,21 +40,21 @@ const DeleteMyPlanModal = (props: Props) => {
 };
 
 const Container = styled.div`
-  width: 270px;
-  min-height: 137px;
+  width: ${PxToVw(270)};
+  min-height: ${PxToVw(137)};
   background: rgba(242, 242, 242, 0.8);
-  backdrop-filter: blur(11px);
+  backdrop-filter: blur(${PxToVw(11)});
   /* Note: backdrop-filter has minimal browser support */
 
-  border-radius: 14px;
+  border-radius: ${PxToVw(14)};
 `;
 
 const Title = styled.div`
   font-family: "SUIT";
   font-style: normal;
   font-weight: 600;
-  font-size: 16px;
-  line-height: 22px;
+  font-size: ${PxToVw(16)};
+  line-height: ${PxToVw(22)};
   /* identical to box height, or 138% */
 
   text-align: center;
@@ -66,8 +67,8 @@ const Contents = styled.div`
   font-family: "SUIT";
   font-style: normal;
   font-weight: 500;
-  font-size: 14px;
-  line-height: 18px;
+  font-size: ${PxToVw(14)};
+  line-height: ${PxToVw(18)};
   /* or 129% */
 
   text-align: center;
@@ -81,7 +82,7 @@ const Contents = styled.div`
   justify-content: center;
 `;
 const Gap = styled.div<{ gap: number }>`
-  min-height: ${(props) => props.gap}px;
+  min-height: ${(props) => PxToVw(props.gap)};
   width: 100%;
 `;
 
@@ -104,8 +105,8 @@ const Button = styled.button`
   font-family: "SUIT";
   font-style: normal;
   font-weight: 400;
-  font-size: 16px;
-  line-height: 22px;
+  font-size: ${PxToVw(16)};
+  line-height: ${PxToVw(22)};
   /* identical to box height, or 138% */
 
   display: flex;
@@ -115,7 +116,7 @@ const Button = styled.button`
   letter-spacing: -0.025em;
   color: #2f80ed;
 
-  padding: 10px;
+  padding: ${PxToVw(10)};
 
   background: none;
   border: none;

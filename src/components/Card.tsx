@@ -80,12 +80,12 @@ const Container = styled.div`
   overflow: scroll;
 
   background: #dff1ff;
-  border-radius: 10px;
-  padding: 20px;
+  border-radius: ${PxToVw(10)};
+  padding: ${PxToVw(20)};
 
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: ${PxToVw(10)};
 
   box-sizing: border-box;
 `;
@@ -94,15 +94,15 @@ const Label = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 6px;
+  gap: ${PxToVw(6)};
 `;
 
 const Name = styled.div`
   font-family: "SUIT";
   font-style: normal;
   font-weight: 500;
-  font-size: 16px;
-  line-height: 20px;
+  font-size: ${PxToVw(16)};
+  line-height: ${PxToVw(20)};
   /* identical to box height */
 
   letter-spacing: -0.01em;
@@ -113,7 +113,7 @@ const Time = styled.div`
   font-family: "SUIT";
   font-style: normal;
   font-weight: 500;
-  font-size: 14px;
+  font-size: ${PxToVw(14)};
   line-height: 130%;
 
   letter-spacing: -0.01em;
@@ -126,7 +126,7 @@ const Content = styled.div`
   font-family: "SUIT";
   font-style: normal;
   font-weight: 400;
-  font-size: 16px;
+  font-size: ${PxToVw(16)};
   line-height: 130%;
 
   letter-spacing: -0.01em;
@@ -139,18 +139,18 @@ const Content = styled.div`
 
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: ${PxToVw(4)};
 `;
 
 const PlanBlock = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 20px;
+  gap: ${PxToVw(20)};
   width: 100%;
 `;
 
 const PlanTime = styled.div`
-  width: 60px;
+  width: ${PxToVw(60)};
 `;
 
 const PlanString = styled.div`
