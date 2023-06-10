@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { PxToVw } from "../util/styleUtil";
 import { ReactSortable } from "react-sortablejs";
@@ -63,78 +63,89 @@ const EditPlanModal = (props: Props) => {
 
   return (
     <Container>
-      <Top>
-        <span className="title">수정하기</span>
-        <Close
-          className="close"
-          onClick={() => props.onClickClose && props.onClickClose()}
+      <Contents>
+        <Top>
+          <span className="title">계획수정</span>
+          <Close
+            className="close"
+            onClick={() => props.onClickClose && props.onClickClose()}
+          />
+        </Top>
+
+        <Gap gap={44} />
+
+        <ReactSortable list={plans} setList={setPlans} handle=".handle-edit">
+          {plans.map((plan, index) => (
+            <TimeAndPlan key={plan.id}>
+              <Input
+                width={74}
+                placeholder="언제"
+                onChange={(input) => {
+                  updatePlans(index, {
+                    ...plans[index].plan,
+                    time: input,
+                  });
+                }}
+                value={plan.plan.time}
+              />
+              <ColumnGap gap={10} />
+              <Input
+                width={240}
+                maxLength={20}
+                placeholder="ㅇㅇ하기(20자 이내)"
+                onChange={(input) => {
+                  updatePlans(index, {
+                    ...plans[index].plan,
+                    contentsString: input,
+                  });
+                }}
+                value={plan.plan.contentsString}
+              />
+              <ColumnGap gap={5} />
+              <DragButton
+                className="handle-edit"
+                style={{
+                  cursor: "pointer",
+                }}
+              />
+            </TimeAndPlan>
+          ))}
+        </ReactSortable>
+
+        <Gap gap={40} />
+        <Button
+          disabled={!isConfirmable}
+          onClick={onClickButton}
+          text={"인증하기"}
+          backgroundColor={props.resultColor}
         />
-      </Top>
-      <Gap gap={66} />
-
-      <SuccessLabel color={props.resultColor || ""}>
-        {props.resultText}
-      </SuccessLabel>
-      <Gap gap={12} />
-      <Title>{`오늘의 가장 중요한 일\n3개를 작성해주세요`}</Title>
-
-      <ReactSortable list={plans} setList={setPlans} handle=".handle-edit">
-        {plans.map((plan, index) => (
-          <TimeAndPlan key={plan.id}>
-            <Input
-              width={74}
-              placeholder="언제"
-              onChange={(input) => {
-                updatePlans(index, {
-                  ...plans[index].plan,
-                  time: input,
-                });
-              }}
-              value={plan.plan.time}
-            />
-            <ColumnGap gap={10} />
-            <Input
-              width={240}
-              maxLength={20}
-              placeholder="ㅇㅇ하기(20자 이내)"
-              onChange={(input) => {
-                updatePlans(index, {
-                  ...plans[index].plan,
-                  contentsString: input,
-                });
-              }}
-              value={plan.plan.contentsString}
-            />
-            <ColumnGap gap={5} />
-            <DragButton
-              className="handle-edit"
-              style={{
-                cursor: "pointer",
-              }}
-            />
-          </TimeAndPlan>
-        ))}
-      </ReactSortable>
-
-      <Gap gap={143} />
-      <Button
-        disabled={!isConfirmable}
-        onClick={onClickButton}
-        text={"인증하기"}
-        backgroundColor={props.resultColor}
-      />
+      </Contents>
     </Container>
   );
 };
 
 const Container = styled.div`
-  min-height: min(${PxToVw(774)}, 600px);
-  width: ${PxToVw(393)};
+  width: 100%;
+  height: 100%;
+
+  position: absolute;
+
+  bottom: 0;
+
+  box-sizing: border-box;
+
+  background: rgba(0, 0, 0, 0.5);
+`;
+
+const Contents = styled.div`
+  position: absolute;
+  bottom: 0;
+  height: ${PxToVw(427)};
+  width: 100%;
   background: rgba(250, 250, 250, 0.93);
   backdrop-filter: blur(40px);
-
-  border-radius: ${PxToVw(13)} ${PxToVw(13)} ${PxToVw(0)} ${PxToVw(0)};
   padding: ${PxToVw(20)};
+  border-radius: ${PxToVw(13)} ${PxToVw(13)} ${PxToVw(0)} ${PxToVw(0)};
   box-sizing: border-box;
 `;
 
@@ -170,35 +181,6 @@ const Gap = styled.div<{ gap: number }>`
 const ColumnGap = styled.div<{ gap: number }>`
   width: ${(props) => PxToVw(props.gap)};
   height: 100%;
-`;
-
-const SuccessLabel = styled.div<{ color: string }>`
-  width: 100%;
-  font-family: "SUIT";
-  font-style: normal;
-  font-weight: 600;
-  font-size: ${PxToVw(16)};
-  line-height: ${PxToVw(20)};
-  /* identical to box height */
-
-  letter-spacing: -0.02em;
-
-  color: ${(props) => props.color};
-
-  text-align: start;
-`;
-
-const Title = styled.pre`
-  width: 100%;
-  font-family: "SUIT";
-  font-style: normal;
-  font-weight: 400;
-  font-size: ${PxToVw(28)};
-  line-height: ${PxToVw(35)};
-  letter-spacing: -0.025em;
-
-  color: #333333;
-  white-space: pre;
 `;
 
 const TimeAndPlan = styled.div`

@@ -18,7 +18,7 @@ const Card = (props: Props) => {
       case 3:
         return "#FFECEF";
     }
-    return "#DFF1FF";
+    return "#F2F4F6";
   };
   return (
     <Container
@@ -38,7 +38,13 @@ const Card = (props: Props) => {
       className="scroll__invisible"
     >
       <Label>
-        <Name>{props.data?.name || ""}</Name>
+        <Name
+          style={{
+            opacity: props.data?.plan && props.data?.plan.length > 0 ? 1 : 0.3,
+          }}
+        >
+          {props.data?.name || ""}
+        </Name>
         <Time>
           {props.data &&
           props.data.plan &&
@@ -70,7 +76,7 @@ const Card = (props: Props) => {
                 <PlanString>{item.contentsString}</PlanString>
               </PlanBlock>
             ))
-          : "아직 작성 전입니다."}
+          : "내용이 없습니다."}
       </Content>
     </Container>
   );

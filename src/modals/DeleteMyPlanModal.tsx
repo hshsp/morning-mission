@@ -13,51 +13,78 @@ interface Props {
 const DeleteMyPlanModal = (props: Props) => {
   return (
     <Container>
-      <Gap gap={16} />
-      <Title>{props.title || "제목"}</Title>
-      <Gap gap={4} />
-      <Contents>
-        {props.contents?.map((item) => (
-          <span>{item}</span>
-        ))}
-      </Contents>
-      <Gap gap={16} />
-      <RowDivider />
-      <Buttons>
-        <Button
-          onClick={() => props.onClickPositive && props.onClickPositive()}
-        >
-          {props.positiveText}
-        </Button>
-        <Button
-          onClick={() => props.onClickNegative && props.onClickNegative()}
-        >
-          {props.negativeText}
-        </Button>
-      </Buttons>
+      <ContentsContainer>
+        <Gap gap={16} />
+        <Title>{props.title || "제목"}</Title>
+        <Gap gap={16} />
+        <Contents>
+          {props.contents?.map((item) => (
+            <span>{item}</span>
+          ))}
+        </Contents>
+        <Gap gap={16} />
+        <Buttons>
+          <Button
+            onClick={() => props.onClickPositive && props.onClickPositive()}
+            style={{
+              color: "#D93441",
+            }}
+          >
+            {props.positiveText}
+          </Button>
+          <Button
+            onClick={() => props.onClickNegative && props.onClickNegative()}
+            style={{
+              color: "#333333",
+            }}
+          >
+            {props.negativeText}
+          </Button>
+        </Buttons>
+      </ContentsContainer>
     </Container>
   );
 };
 
 const Container = styled.div`
-  width: ${PxToVw(270)};
-  min-height: ${PxToVw(137)};
-  background: rgba(242, 242, 242, 0.8);
-  backdrop-filter: blur(${PxToVw(11)});
-  /* Note: backdrop-filter has minimal browser support */
+  width: 100%;
+  height: 100%;
 
-  border-radius: ${PxToVw(14)};
+  position: absolute;
+
+  bottom: 0;
+
+  background: rgba(0, 0, 0, 0.5);
+`;
+
+const ContentsContainer = styled.div`
+  position: absolute;
+
+  width: ${PxToVw(312)};
+  min-height: ${PxToVw(172)};
+
+  padding: ${PxToVw(24)} ${PxToVw(24)} ${PxToVw(16)} ${PxToVw(24)};
+
+  background: #fafafa;
+
+  border-radius: ${PxToVw(10)};
+  box-sizing: border-box;
+
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  border: none;
 `;
 
 const Title = styled.div`
   font-family: "SUIT";
   font-style: normal;
-  font-weight: 600;
-  font-size: ${PxToVw(16)};
-  line-height: ${PxToVw(22)};
-  /* identical to box height, or 138% */
-
-  text-align: center;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 20px;
   letter-spacing: -0.025em;
 
   color: #333333;
@@ -67,56 +94,42 @@ const Contents = styled.div`
   font-family: "SUIT";
   font-style: normal;
   font-weight: 500;
-  font-size: ${PxToVw(14)};
-  line-height: ${PxToVw(18)};
-  /* or 129% */
+  font-size: 14px;
+  line-height: 20px;
+  /* or 143% */
 
-  text-align: center;
   letter-spacing: -0.025em;
 
-  color: #333333;
+  color: #7b7b7b;
 
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
 `;
 const Gap = styled.div<{ gap: number }>`
   min-height: ${(props) => PxToVw(props.gap)};
   width: 100%;
 `;
 
-const RowDivider = styled.div`
-  min-height: 1px;
-  width: 100%;
-  background: rgba(60, 60, 67, 0.36);
-`;
-
 const Buttons = styled.div`
   display: flex;
   flex-direction: row;
-
-  button:not(:last-child) {
-    border-right: 1px solid rgba(60, 60, 67, 0.36);
-  }
+  justify-content: flex-end;
+  gap: ${PxToVw(8)};
 `;
 const Button = styled.button`
-  flex: 1;
   font-family: "SUIT";
   font-style: normal;
-  font-weight: 400;
-  font-size: ${PxToVw(16)};
-  line-height: ${PxToVw(22)};
-  /* identical to box height, or 138% */
+  font-weight: 500;
+  font-size: ${PxToVw(14)};
+  line-height: ${PxToVw(20)};
+  /* identical to box height, or 143% */
 
   display: flex;
   align-items: center;
-  justify-content: center;
   text-align: center;
   letter-spacing: -0.025em;
-  color: #2f80ed;
 
-  padding: ${PxToVw(10)};
+  padding: ${PxToVw(10)} ${PxToVw(12)};
 
   background: none;
   border: none;

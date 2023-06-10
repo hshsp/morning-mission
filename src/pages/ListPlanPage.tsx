@@ -8,9 +8,10 @@ import { PlanContainer, UserPlan } from "../types/types";
 import { PxToVw } from "../util/styleUtil";
 import Modal from "react-modal";
 import EditPlanModal from "../modals/EditPlanModal";
-import swal from "sweetalert";
 import DeleteMyPlanModal from "../modals/DeleteMyPlanModal";
 import MyHistoryModal from "../modals/MyHistoryModal";
+import { MOBILE_DEFAULT_HEIGHT, MOBILE_DEFAULT_WIDTH } from "../data/constants";
+import Button from "../components/Button";
 
 const ListPlanPage = () => {
   const [value, setValue] = useState<Date>(new Date());
@@ -61,6 +62,31 @@ const ListPlanPage = () => {
           return;
       }
     }
+
+    const date = new Date();
+
+    const hour = date.getHours();
+    const min = date.getMinutes();
+
+    if (hour === 7 || hour === 8 || (hour === 9 && min === 0)) {
+      setResultText("지금 인증하면 성공");
+      setResultColor("#2F80ED");
+      return;
+    }
+
+    if (
+      hour === 9 ||
+      hour === 10 ||
+      hour === 11 ||
+      (hour === 12 && min === 0)
+    ) {
+      setResultText("지금 인증하면 반절 성공");
+      setResultColor("#39CA76");
+      return;
+    }
+
+    setResultText("지금 인증하면 실패");
+    setResultColor("#DF1525");
   };
 
   const init = async () => {
@@ -101,12 +127,10 @@ const ListPlanPage = () => {
           arr.push(obj[key].plan);
         }
       }
-
       const defaultMyPlan = {
         ...resMyPlan,
         contents: arr,
       };
-
       console.log(defaultMyPlan);
       setMyPlan(defaultMyPlan);
     } else {
@@ -133,115 +157,130 @@ const ListPlanPage = () => {
       padding: 0,
       border: "none",
     },
-    // overlay: {},
+    overlay: {
+      background: "rgba(0,0,0,0.5)",
+    },
   };
 
   return (
     <Root>
-      <Container>
-        <DateLabel>{getYMDDate(value)}</DateLabel>
-        <Gap gap={50} />
+      <StickyContainer>
+        <Container
+          style={{
+            overflow:
+              isEditModalOpen || isDeleteModalOpen ? "hidden" : "scroll",
+          }}
+        >
+          <Gap gap={40} />
+          <DateLabel>{getYMDDate(value)}</DateLabel>
+          <Gap gap={50} />
 
-        {myPlan && (
           <RowSpaceBetween>
             <ResultChip backgroundColor={resultColor}>{resultText}</ResultChip>
 
-            <EditDeleteButtons>
-              <EditDeleteButton onClick={() => setIsDeleteModalOpen(true)}>
-                삭제하기
-              </EditDeleteButton>
-              <ColumnDivider height={12} />
-              <EditDeleteButton
-                onClick={() => {
-                  setIsEditModalOpen(true);
-                }}
-              >
-                수정하기
-              </EditDeleteButton>
-            </EditDeleteButtons>
+            {myPlan && (
+              <EditDeleteButtons>
+                <EditDeleteButton onClick={() => setIsDeleteModalOpen(true)}>
+                  삭제하기
+                </EditDeleteButton>
+                <ColumnDivider height={12} />
+                <EditDeleteButton
+                  onClick={() => {
+                    setIsEditModalOpen(true);
+                  }}
+                >
+                  수정하기
+                </EditDeleteButton>
+              </EditDeleteButtons>
+            )}
           </RowSpaceBetween>
+
+          <Gap gap={20} />
+
+          {myPlan &&
+            myPlan.contents &&
+            myPlan.contents.length > 0 &&
+            myPlan.contents.map((item) => (
+              <PlanBlock>
+                <PlanTime>{item.time}</PlanTime>
+                <PlanString>{item.contentsString}</PlanString>
+              </PlanBlock>
+            ))}
+          <Gap gap={20} />
+
+          <RowDivider />
+          <Gap gap={10} />
+
+          <RowSpaceBetween>
+            {myPlan && myPlan.creationTime ? (
+              <PlanWrittenTime>
+                작성시간{" "}
+                {`${getHM(new Date(myPlan.creationTime))}${getAmPm(
+                  new Date(myPlan.creationTime)
+                )}`}
+              </PlanWrittenTime>
+            ) : (
+              <div />
+            )}
+            <MyHistoryButton
+              onClick={() => setIsHistoryModalOpen(true)}
+            >{`내 기록 보기 >`}</MyHistoryButton>
+          </RowSpaceBetween>
+
+          <Gap gap={30} />
+          <List>
+            {planList?.map((item) => (
+              <Card data={item} width={353}></Card>
+            ))}
+          </List>
+
+          {!myPlan && (
+            <>
+              <Gap gap={52 + 63} />
+
+              <ButtonContainer>
+                <Button
+                  // onClick={onClickButton}
+                  text={"인증하기"}
+                  backgroundColor={resultColor}
+                  width={353}
+                />
+              </ButtonContainer>
+            </>
+          )}
+        </Container>
+
+        {isEditModalOpen && (
+          <EditPlanModal
+            defaultPlans={myPlan?.contents}
+            resultColor={resultColor}
+            resultText={resultText}
+            onClickClose={() => setIsEditModalOpen(false)}
+            onRefresh={() => {
+              init();
+            }}
+          />
         )}
 
-        <Gap gap={20} />
+        {isDeleteModalOpen && (
+          <DeleteMyPlanModal
+            title="삭제"
+            contents={[
+              "인증 기록을 삭제할까요?",
+              "작성한 내용은 복구되지 않고 기록이 사라집니다.",
+            ]}
+            positiveText="삭제"
+            onClickPositive={() => {
+              onClickDelete();
+            }}
+            negativeText="취소"
+            onClickNegative={() => setIsDeleteModalOpen(false)}
+          />
+        )}
+      </StickyContainer>
 
-        {myPlan &&
-          myPlan.contents &&
-          myPlan.contents.length > 0 &&
-          myPlan.contents.map((item) => (
-            <PlanBlock>
-              <PlanTime>{item.time}</PlanTime>
-              <PlanString>{item.contentsString}</PlanString>
-            </PlanBlock>
-          ))}
-        <Gap gap={20} />
-
-        <RowDivider />
-        <Gap gap={10} />
-
-        <RowSpaceBetween>
-          <PlanWrittenTime>
-            작성시간{" "}
-            {myPlan &&
-              myPlan.creationTime &&
-              `${getHM(new Date(myPlan.creationTime))}${getAmPm(
-                new Date(myPlan.creationTime)
-              )}`}
-          </PlanWrittenTime>
-          <MyHistoryButton
-            onClick={() => setIsHistoryModalOpen(true)}
-          >{`내 기록 보기 >`}</MyHistoryButton>
-        </RowSpaceBetween>
-
-        <Gap gap={30} />
-        <List>
-          {planList?.map((item) => (
-            <Card data={item} width={353}></Card>
-          ))}
-        </List>
-      </Container>
-
-      <Modal
-        isOpen={isEditModalOpen}
-        // onAfterOpen={afterOpenModal}
-        // onRequestClose={closeModal}
-        style={customStyles}
-        contentLabel="Example Modal"
-      >
-        <EditPlanModal
-          defaultPlans={myPlan?.contents}
-          resultColor={resultColor}
-          resultText={resultText}
-          onClickClose={() => setIsEditModalOpen(false)}
-          onRefresh={() => {
-            init();
-          }}
-        />
-      </Modal>
-      <Modal
-        isOpen={isDeleteModalOpen}
-        // onAfterOpen={afterOpenModal}
-        // onRequestClose={closeModal}
-        style={customStyles}
-        contentLabel="Example Modal"
-      >
-        <DeleteMyPlanModal
-          title="삭제할까요?"
-          contents={[
-            "작성한 내용은 복구되지 않습니다.",
-            "인증기록도 사라집니다.",
-          ]}
-          positiveText="삭제"
-          onClickPositive={() => {
-            onClickDelete();
-          }}
-          negativeText="취소"
-          onClickNegative={() => setIsDeleteModalOpen(false)}
-        />
-      </Modal>
       <Modal
         isOpen={isHistoryModalOpen}
-        // onAfterOpen={afterOpenModal}
-        // onRequestClose={closeModal}
         style={customStyles}
         contentLabel="Example Modal"
       >
@@ -260,17 +299,30 @@ const Root = styled.div`
   align-items: center;
 `;
 
+const StickyContainer = styled.div`
+  width: ${PxToVw(MOBILE_DEFAULT_WIDTH)};
+  height: ${PxToVw(MOBILE_DEFAULT_HEIGHT)};
+  min-height: ${PxToVw(MOBILE_DEFAULT_HEIGHT)};
+  max-height: ${PxToVw(MOBILE_DEFAULT_HEIGHT)};
+
+  position: relative;
+`;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  width: ${PxToVw(393)};
-  min-width: ${PxToVw(393)};
-  max-height: calc(100%);
 
-  padding: ${PxToVw(20)};
+  width: 100%;
+  height: 100%;
+
+  overflow: scroll;
+
+  padding: 0 ${PxToVw(20)};
   box-sizing: border-box;
+
+  position: relative;
 `;
 
 const Gap = styled.div<{ gap: number }>`
@@ -431,6 +483,16 @@ const List = styled.div`
   align-items: center;
 
   gap: ${PxToVw(10)};
+`;
+
+const ButtonContainer = styled.div`
+  position: sticky;
+  bottom: ${PxToVw(63)};
+`;
+
+const ModalContainer = styled.div`
+  position: sticky;
+  bottom: 0;
 `;
 
 export default ListPlanPage;

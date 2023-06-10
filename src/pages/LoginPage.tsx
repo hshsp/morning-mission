@@ -9,6 +9,9 @@ import * as api from "../network/api";
 import axios from "axios";
 import { PxToVw } from "../util/styleUtil";
 
+import { ReactComponent as Check } from "../svg/CheckSmall.svg";
+import { MOBILE_DEFAULT_HEIGHT, MOBILE_DEFAULT_WIDTH } from "../data/constants";
+
 interface Props {}
 const LoginPage = ({}: Props) => {
   const navigate = useNavigate();
@@ -20,27 +23,40 @@ const LoginPage = ({}: Props) => {
   return (
     <Root>
       <Container>
+        <Gap gap={278} />
         <div className="title">로그인</div>
         <Gap gap={20} />
         <Input
-          width={353}
           placeholder="메일주소를 입력해주세요."
           onChange={(input) => setEmail(input)}
           borderColor={isError ? "#DF1525" : undefined}
         />
         <Gap gap={10} />
         <Input
-          width={353}
           isPassword={true}
           placeholder="비밀번호를 입력해주세요."
           onChange={(input) => setPassword(input)}
           borderColor={isError ? "#DF1525" : undefined}
         />
-        <Gap gap={10} />
-        <ErrorMessage isError={isError}>
-          메일주소 또는 비밀번호를 다시 확인해주세요.
-        </ErrorMessage>
-        <Gap gap={28} />
+        {isError && (
+          <>
+            <Gap gap={10} />
+            <ErrorMessage isError={isError}>
+              메일주소 또는 비밀번호를 다시 확인해주세요.
+            </ErrorMessage>
+          </>
+        )}
+        <Gap gap={20} />
+        <SaveLogin>
+          <Check
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              // TODO 로그인 정보 기억하기
+            }}
+          />
+          <span>로그인 정보 기억하기</span>
+        </SaveLogin>
+        <Gap gap={40} />
         <Button
           onClick={async () => {
             try {
@@ -74,7 +90,11 @@ const Root = styled.div`
 `;
 
 const Container = styled.div`
-  width: ${PxToVw(353)};
+  width: ${PxToVw(MOBILE_DEFAULT_WIDTH)};
+  min-height: ${PxToVw(MOBILE_DEFAULT_HEIGHT)};
+  max-height: ${PxToVw(MOBILE_DEFAULT_HEIGHT)};
+
+  padding: 0 ${PxToVw(20)};
 
   .title {
     font-family: "SUIT";
@@ -112,6 +132,25 @@ const ErrorMessage = styled.div<{ isError?: boolean }>`
   color: #df1525;
 
   visibility: ${(props) => (props.isError ? "visible" : "hidden")};
+`;
+
+const SaveLogin = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: ${PxToVw(8)};
+
+  font-family: "SUIT";
+  font-style: normal;
+  font-weight: 400;
+  font-size: ${PxToVw(14)};
+  line-height: 130%;
+  /* or 18px */
+
+  letter-spacing: -0.025em;
+
+  color: #333333;
 `;
 
 export default LoginPage;

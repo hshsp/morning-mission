@@ -21,6 +21,7 @@ import { ReactSortable } from "react-sortablejs";
 
 import { ReactComponent as DragButton } from "../svg/DragButton.svg";
 import { PxToVw } from "../util/styleUtil";
+import { MOBILE_DEFAULT_HEIGHT, MOBILE_DEFAULT_WIDTH } from "../data/constants";
 
 const WritePlanPage = () => {
   const navigate = useNavigate();
@@ -114,22 +115,7 @@ const WritePlanPage = () => {
     const res = (await axios.get(api.getMyPlan())).data;
 
     if (res) {
-      const defaultPlans = [];
-      const obj = res.contents;
-      for (let key in obj) {
-        defaultPlans.push({
-          id: `${key}`,
-          plan: obj[key].plan,
-        });
-      }
-      setPlans(defaultPlans);
-      defaultResult.current = res.isSuccess;
-
-      setIsConfirmable(
-        defaultPlans.filter(
-          (item) => !item.plan.time || !item.plan.contentsString
-        ).length === 0
-      );
+      navigate("/list-plan");
     }
   };
 
@@ -161,6 +147,7 @@ const WritePlanPage = () => {
   return (
     <Root>
       <Container>
+        <Gap gap={100} />
         <TimeLabel>
           {`${getMonth(currentDate)}월 ${getDate(currentDate)}일 ${getDayKorean(
             currentDate
@@ -179,6 +166,7 @@ const WritePlanPage = () => {
             <TimeAndPlan key={plan.id}>
               <Input
                 width={74}
+                maxLength={3}
                 placeholder="언제"
                 onChange={(input) => {
                   updatePlans(index, {
@@ -188,7 +176,7 @@ const WritePlanPage = () => {
                 }}
                 value={plan.plan.time}
               />
-              <ColumnGap gap={10} />
+              <ColumnGap flex={2} />
               <Input
                 width={240}
                 maxLength={20}
@@ -201,24 +189,22 @@ const WritePlanPage = () => {
                 }}
                 value={plan.plan.contentsString}
               />
-              <ColumnGap gap={5} />
-              <DragButton
-                className="handle"
-                style={{
-                  cursor: "pointer",
-                }}
-              />
+              <ColumnGap flex={1} />
+              <DragButton className={`handle`} />
             </TimeAndPlan>
           ))}
         </ReactSortable>
 
         <Gap gap={143} />
-        <Button
-          disabled={!isConfirmable}
-          onClick={onClickButton}
-          text={"인증하기"}
-          backgroundColor={resultColor}
-        />
+        <ButtonContainer>
+          <Button
+            width={353}
+            disabled={!isConfirmable}
+            onClick={onClickButton}
+            text={"인증하기"}
+            backgroundColor={resultColor}
+          />
+        </ButtonContainer>
       </Container>
     </Root>
   );
@@ -236,10 +222,10 @@ const Root = styled.div`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: ${PxToVw(393)};
-  padding: ${PxToVw(20)};
+  justify-content: flex-start;
+  width: ${PxToVw(MOBILE_DEFAULT_WIDTH)};
+  min-height: ${PxToVw(MOBILE_DEFAULT_HEIGHT)};
+  max-height: ${PxToVw(MOBILE_DEFAULT_HEIGHT)};
   box-sizing: border-box;
 `;
 
@@ -248,13 +234,13 @@ const Gap = styled.div<{ gap: number }>`
   width: 100%;
 `;
 
-const ColumnGap = styled.div<{ gap: number }>`
-  width: ${(props) => PxToVw(props.gap)};
+const ColumnGap = styled.div<{ flex: number }>`
+  flex: ${(props) => props.flex};
   height: 100%;
 `;
 
 const TimeLabel = styled.div`
-  width: calc(100% + ${PxToVw(40)});
+  width: 100%;
   background: #f0f2f4;
   font-family: "SUIT";
   font-style: normal;
@@ -284,6 +270,8 @@ const SuccessLabel = styled.div<{ color: string }>`
   color: ${(props) => props.color};
 
   text-align: start;
+
+  padding: 0 ${PxToVw(20)};
 `;
 
 const Title = styled.pre`
@@ -297,13 +285,32 @@ const Title = styled.pre`
 
   color: #333333;
   white-space: pre;
+
+  padding: 0 ${PxToVw(20)};
 `;
 
 const TimeAndPlan = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: ${PxToVw(10)};
+  padding: ${PxToVw(10)} ${PxToVw(20)};
+
+  svg {
+    cursor: pointer;
+
+    &:hover {
+      background: #f2f4f6;
+
+      border-radius: ${PxToVw(10)};
+    }
+  }
+`;
+
+const ButtonContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 `;
 
 export default WritePlanPage;
