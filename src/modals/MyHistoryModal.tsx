@@ -134,7 +134,7 @@ const MyHistoryModal = (props: Props) => {
         <Gap gap={24} />
 
         {planHistory && planHistory.length > 0 ? (
-          <ListContainer>
+          <ListContainer className="scroll__invisible">
             <List>
               {planHistory.map((item) => (
                 <HistoryCard data={item}></HistoryCard>

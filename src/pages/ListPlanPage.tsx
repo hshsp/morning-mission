@@ -187,6 +187,7 @@ const ListPlanPage = () => {
     <Root>
       <StickyContainer>
         <Container
+          className="scroll__invisible"
           style={{
             overflow:
               isEditModalOpen || isDeleteModalOpen ? "hidden" : "scroll",
