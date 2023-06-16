@@ -137,7 +137,7 @@ const MyHistoryModal = (props: Props) => {
           <ListContainer>
             <List>
               {planHistory.map((item) => (
-                <HistoryCard data={item} width={353}></HistoryCard>
+                <HistoryCard data={item}></HistoryCard>
               ))}
             </List>
           </ListContainer>
