@@ -2,7 +2,14 @@ import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import axios from "axios";
 import * as api from "./../network/api";
-import { getAmPm, getHM, getYMDDate } from "../util/timeUtil";
+import {
+  getAmPm,
+  getDate,
+  getDayKorean,
+  getHM,
+  getMonth,
+  getYMDDate,
+} from "../util/timeUtil";
 import Card from "../components/Card";
 import { PlanContainer, UserPlan } from "../types/types";
 import { PxToVw } from "../util/styleUtil";
@@ -12,6 +19,7 @@ import DeleteMyPlanModal from "../modals/DeleteMyPlanModal";
 import MyHistoryModal from "../modals/MyHistoryModal";
 import { MOBILE_DEFAULT_HEIGHT, MOBILE_DEFAULT_WIDTH } from "../data/constants";
 import Button from "../components/Button";
+import { ReactComponent as ButtonMore } from "./../svg/ButtonMore.svg";
 
 const ListPlanPage = () => {
   const [value, setValue] = useState<Date>(new Date());
@@ -47,17 +55,21 @@ const ListPlanPage = () => {
 
   const updateResult = () => {
     if (myPlan) {
+      const creationTime = `${getHM(
+        new Date(myPlan.creationTime || "")
+      )}${getAmPm(new Date(myPlan.creationTime || ""))}`;
+
       switch (myPlan.isSuccess) {
         case 1:
-          setResultText("오늘 인증 성공");
+          setResultText(`오늘 인증 성공 ${creationTime}`);
           setResultColor("#2F80ED");
           return;
         case 2:
-          setResultText("오늘 인증 반절 성공");
+          setResultText(`오늘 인증 반절 성공 ${creationTime}`);
           setResultColor("#39CA76");
           return;
         case 3:
-          setResultText("오늘 인증 실패");
+          setResultText(`오늘 인증 실패 ${creationTime}`);
           setResultColor("#DF1525");
           return;
       }
@@ -69,7 +81,6 @@ const ListPlanPage = () => {
     const min = date.getMinutes();
 
     if (hour === 7 || hour === 8 || (hour === 9 && min === 0)) {
-      setResultText("지금 인증하면 성공");
       setResultColor("#2F80ED");
       return;
     }
@@ -80,12 +91,10 @@ const ListPlanPage = () => {
       hour === 11 ||
       (hour === 12 && min === 0)
     ) {
-      setResultText("지금 인증하면 반절 성공");
       setResultColor("#39CA76");
       return;
     }
 
-    setResultText("지금 인증하면 실패");
     setResultColor("#DF1525");
   };
 
@@ -172,43 +181,65 @@ const ListPlanPage = () => {
           }}
         >
           <Gap gap={40} />
-          <DateLabel>{getYMDDate(value)}</DateLabel>
+          <DateLabel>
+            <span>{`${getMonth(value)}월 ${getDate(value)}일 ${getDayKorean(
+              value
+            )}`}</span>
+            <ButtonMore
+              onClick={() => {
+                // TODO 더보기 화면
+              }}
+            />
+          </DateLabel>
           <Gap gap={50} />
 
-          <RowSpaceBetween>
-            <ResultChip backgroundColor={resultColor}>{resultText}</ResultChip>
+          {myPlan && myPlan.contents && myPlan.contents.length > 0 ? (
+            <>
+              <RowSpaceBetween>
+                <ResultChip backgroundColor={resultColor}>
+                  {resultText}
+                </ResultChip>
 
-            {myPlan && (
-              <EditDeleteButtons>
-                <EditDeleteButton onClick={() => setIsDeleteModalOpen(true)}>
-                  삭제하기
-                </EditDeleteButton>
-                <ColumnDivider height={12} />
-                <EditDeleteButton
-                  onClick={() => {
-                    setIsEditModalOpen(true);
-                  }}
-                >
-                  수정하기
-                </EditDeleteButton>
-              </EditDeleteButtons>
-            )}
-          </RowSpaceBetween>
+                <EditDeleteButtons>
+                  <EditDeleteButton onClick={() => setIsDeleteModalOpen(true)}>
+                    삭제하기
+                  </EditDeleteButton>
+                  <ColumnDivider height={12} />
+                  <EditDeleteButton
+                    onClick={() => {
+                      setIsEditModalOpen(true);
+                    }}
+                  >
+                    수정하기
+                  </EditDeleteButton>
+                </EditDeleteButtons>
+              </RowSpaceBetween>
 
-          <Gap gap={20} />
+              <Gap gap={20} />
 
-          {myPlan &&
-            myPlan.contents &&
-            myPlan.contents.length > 0 &&
-            myPlan.contents.map((item) => (
-              <PlanBlock>
-                <PlanTime>{item.time}</PlanTime>
-                <PlanString>{item.contentsString}</PlanString>
-              </PlanBlock>
-            ))}
-          <Gap gap={20} />
+              {myPlan.contents.map((item) => (
+                <PlanBlock>
+                  <PlanTime>{item.time}</PlanTime>
+                  <PlanString>{item.contentsString}</PlanString>
+                </PlanBlock>
+              ))}
+              <Gap gap={20} />
 
-          <RowDivider />
+              <RowDivider />
+            </>
+          ) : (
+            <EmptyMyPlan>
+              <span>작성한 내용이 없습니다.</span>
+              <Button
+                width={109}
+                paddingTop={10}
+                text="인증하기"
+                backgroundColor={resultColor}
+                onClick={() => {}}
+              />
+            </EmptyMyPlan>
+          )}
+
           <Gap gap={10} />
 
           <RowSpaceBetween>
@@ -233,21 +264,6 @@ const ListPlanPage = () => {
               <Card data={item} width={353}></Card>
             ))}
           </List>
-
-          {!myPlan && (
-            <>
-              <Gap gap={52 + 63} />
-
-              <ButtonContainer>
-                <Button
-                  // onClick={onClickButton}
-                  text={"인증하기"}
-                  backgroundColor={resultColor}
-                  width={353}
-                />
-              </ButtonContainer>
-            </>
-          )}
         </Container>
 
         {isEditModalOpen && (
@@ -345,7 +361,11 @@ const DateLabel = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-between;
+
+  svg {
+    cursor: pointer;
+  }
 `;
 
 const RowSpaceBetween = styled.div`
@@ -485,14 +505,34 @@ const List = styled.div`
   gap: ${PxToVw(10)};
 `;
 
-const ButtonContainer = styled.div`
-  position: sticky;
-  bottom: ${PxToVw(63)};
-`;
+const EmptyMyPlan = styled.div`
+  width: 100%;
+  height: ${PxToVw(158)};
+  min-height: ${PxToVw(158)};
 
-const ModalContainer = styled.div`
-  position: sticky;
-  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: ${PxToVw(16)};
+  justify-content: center;
+  align-items: center;
+
+  background: #fbfbfb;
+  border-radius: ${PxToVw(6)};
+
+  span {
+    font-family: "SUIT";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 25px;
+    /* identical to box height */
+
+    letter-spacing: -0.02em;
+
+    color: #333333;
+
+    opacity: 0.3;
+  }
 `;
 
 export default ListPlanPage;

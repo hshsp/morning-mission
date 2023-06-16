@@ -165,8 +165,8 @@ const WritePlanPage = () => {
           {plans.map((plan, index) => (
             <TimeAndPlan key={plan.id}>
               <Input
-                width={74}
-                maxLength={3}
+                width={102}
+                maxLength={5}
                 placeholder="언제"
                 onChange={(input) => {
                   updatePlans(index, {
@@ -178,9 +178,9 @@ const WritePlanPage = () => {
               />
               <ColumnGap flex={2} />
               <Input
-                width={240}
-                maxLength={20}
-                placeholder="ㅇㅇ하기(20자 이내)"
+                width={213}
+                maxLength={13}
+                placeholder="ㅇㅇ하기(13자 이내)"
                 onChange={(input) => {
                   updatePlans(index, {
                     ...plans[index].plan,

@@ -19,6 +19,7 @@ const LoginPage = ({}: Props) => {
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [isError, setIsError] = useState<boolean>(false);
+  const [isSaveLogin, setIsSaveLogin] = useState<boolean>(false);
 
   return (
     <Root>
@@ -47,13 +48,14 @@ const LoginPage = ({}: Props) => {
           </>
         )}
         <Gap gap={20} />
-        <SaveLogin>
-          <Check
-            style={{ cursor: "pointer" }}
-            onClick={() => {
-              // TODO 로그인 정보 기억하기
-            }}
-          />
+        <SaveLogin
+          onClick={() => {
+            // TODO 로그인 정보 기억하기
+            setIsSaveLogin((prev) => !prev);
+          }}
+          isSaveLogin={isSaveLogin}
+        >
+          <Check />
           <span>로그인 정보 기억하기</span>
         </SaveLogin>
         <Gap gap={40} />
@@ -134,7 +136,8 @@ const ErrorMessage = styled.div<{ isError?: boolean }>`
   visibility: ${(props) => (props.isError ? "visible" : "hidden")};
 `;
 
-const SaveLogin = styled.div`
+const SaveLogin = styled.div<{ isSaveLogin: boolean }>`
+  width: fit-content;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -151,6 +154,12 @@ const SaveLogin = styled.div`
   letter-spacing: -0.025em;
 
   color: #333333;
+
+  cursor: pointer;
+
+  rect {
+    fill: ${(props) => (props.isSaveLogin ? "#2F80ED" : "rgb(217, 217, 217)")};
+  }
 `;
 
 export default LoginPage;

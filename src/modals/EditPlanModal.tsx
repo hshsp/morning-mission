@@ -72,13 +72,14 @@ const EditPlanModal = (props: Props) => {
           />
         </Top>
 
-        <Gap gap={44} />
+        <Gap gap={34} />
 
         <ReactSortable list={plans} setList={setPlans} handle=".handle-edit">
           {plans.map((plan, index) => (
             <TimeAndPlan key={plan.id}>
               <Input
-                width={74}
+                width={102}
+                maxLength={5}
                 placeholder="언제"
                 onChange={(input) => {
                   updatePlans(index, {
@@ -88,10 +89,10 @@ const EditPlanModal = (props: Props) => {
                 }}
                 value={plan.plan.time}
               />
-              <ColumnGap gap={10} />
+              <ColumnGap flex={2} />
               <Input
-                width={240}
-                maxLength={20}
+                width={213}
+                maxLength={13}
                 placeholder="ㅇㅇ하기(20자 이내)"
                 onChange={(input) => {
                   updatePlans(index, {
@@ -101,7 +102,7 @@ const EditPlanModal = (props: Props) => {
                 }}
                 value={plan.plan.contentsString}
               />
-              <ColumnGap gap={5} />
+              <ColumnGap flex={1} />
               <DragButton
                 className="handle-edit"
                 style={{
@@ -112,7 +113,7 @@ const EditPlanModal = (props: Props) => {
           ))}
         </ReactSortable>
 
-        <Gap gap={40} />
+        <Gap gap={30} />
         <Button
           disabled={!isConfirmable}
           onClick={onClickButton}
@@ -178,8 +179,8 @@ const Gap = styled.div<{ gap: number }>`
   width: 100%;
 `;
 
-const ColumnGap = styled.div<{ gap: number }>`
-  width: ${(props) => PxToVw(props.gap)};
+const ColumnGap = styled.div<{ flex: number }>`
+  flex: ${(props) => props.flex};
   height: 100%;
 `;
 
@@ -187,7 +188,7 @@ const TimeAndPlan = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: ${PxToVw(10)};
+  padding: ${PxToVw(10)} 0;
 `;
 
 export default EditPlanModal;

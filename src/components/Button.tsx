@@ -4,6 +4,7 @@ import { PxToVw } from "../util/styleUtil";
 
 interface Props {
   width?: string | number;
+  paddingTop?: number;
   text?: string;
   disabled?: boolean;
   backgroundColor?: string;
@@ -24,6 +25,9 @@ const Button = (props: Props) => {
           : props.backgroundColor || "#2f80ed",
         cursor: props.disabled ? "default" : "pointer",
         border: props.disabled ? "none" : "1px solid rgba(0, 0, 0, 0.15)",
+        padding: `${PxToVw(props.paddingTop ? props.paddingTop : 15)} ${PxToVw(
+          20
+        )}`,
       }}
       onClick={() => !props.disabled && props.onClick && props.onClick()}
     >
@@ -34,8 +38,6 @@ const Button = (props: Props) => {
 
 const Container = styled.button`
   border-radius: ${PxToVw(10)};
-
-  padding: ${PxToVw(15)} ${PxToVw(20)};
 
   font-family: "SUIT";
   font-style: normal;
