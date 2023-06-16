@@ -9,6 +9,8 @@ import Login from "./pages/LoginPage";
 import WritePlanPage from "./pages/WritePlanPage";
 import ListPlanPage from "./pages/ListPlanPage";
 import { setInitAxioSetting } from "./network/api";
+import MoreMenuPage from "./pages/MoreMenuPage";
+import ChangePassword from "./pages/ChangePassword";
 
 console.log(`ENV : ${process.env.REACT_APP_ENV}`);
 console.log(`CURRENT_VER : ${process.env.REACT_APP_CURRENT_VER}`);
@@ -25,6 +27,14 @@ const router = createBrowserRouter([
   {
     path: "/list-plan",
     element: <ListPlanPage />,
+  },
+  {
+    path: "/more",
+    element: <MoreMenuPage />,
+  },
+  {
+    path: "/change-password",
+    element: <ChangePassword />,
   },
 ]);
 

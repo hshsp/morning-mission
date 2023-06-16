@@ -20,9 +20,11 @@ import MyHistoryModal from "../modals/MyHistoryModal";
 import { MOBILE_DEFAULT_HEIGHT, MOBILE_DEFAULT_WIDTH } from "../data/constants";
 import Button from "../components/Button";
 import { ReactComponent as ButtonMore } from "./../svg/ButtonMore.svg";
+import { useNavigate } from "react-router-dom";
 
 const ListPlanPage = () => {
   const [value, setValue] = useState<Date>(new Date());
+  const navigate = useNavigate();
 
   useEffect(() => {
     const interval = setInterval(() => setValue(new Date()), 1000);
@@ -187,7 +189,7 @@ const ListPlanPage = () => {
             )}`}</span>
             <ButtonMore
               onClick={() => {
-                // TODO 더보기 화면
+                navigate("/more");
               }}
             />
           </DateLabel>
@@ -293,15 +295,11 @@ const ListPlanPage = () => {
             onClickNegative={() => setIsDeleteModalOpen(false)}
           />
         )}
-      </StickyContainer>
 
-      <Modal
-        isOpen={isHistoryModalOpen}
-        style={customStyles}
-        contentLabel="Example Modal"
-      >
-        <MyHistoryModal onClickClose={() => setIsHistoryModalOpen(false)} />
-      </Modal>
+        {isHistoryModalOpen && (
+          <MyHistoryModal onClickClose={() => setIsHistoryModalOpen(false)} />
+        )}
+      </StickyContainer>
     </Root>
   );
 };
@@ -316,9 +314,8 @@ const Root = styled.div`
 `;
 
 const StickyContainer = styled.div`
-  width: ${PxToVw(MOBILE_DEFAULT_WIDTH)};
-  height: ${PxToVw(MOBILE_DEFAULT_HEIGHT)};
-  min-height: ${PxToVw(MOBILE_DEFAULT_HEIGHT)};
+  width: 100%;
+  height: 100%;
   max-height: ${PxToVw(MOBILE_DEFAULT_HEIGHT)};
 
   position: relative;

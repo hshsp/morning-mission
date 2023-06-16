@@ -89,3 +89,46 @@ export const exportTimeFromDate = (value: Date) => {
 
   return `${hour}:${min}`;
 };
+
+/**
+ *
+ * @param dayTerm 며칠간격으로 할 건지
+ * @param referenceDate 기준일 (시작일) UTC
+ * @param startHour 시작 시간 UTC
+ * @param startMinutes 시작 분 UTC
+ * @param startSeconds 시작 초 UTC
+ * @returns
+ */
+export const utcGetStartTimeAndEndTimeRangeDayTerm = (
+  dayTerm: number,
+  referenceDate: Date,
+  startHour: number,
+  startMinutes: number,
+  startSeconds: number
+) => {
+  // 시간,분만 비교하기 위해 년도, 월, 일은 같은 걸로 설정해준다.
+  const goalTime = new Date();
+  goalTime.setUTCHours(startHour);
+  goalTime.setUTCMinutes(startMinutes);
+  goalTime.setUTCSeconds(startSeconds);
+
+  const referenceTime = new Date();
+  referenceTime.setUTCHours(referenceDate.getUTCHours());
+  referenceTime.setUTCMinutes(referenceDate.getUTCMinutes());
+  referenceTime.setUTCSeconds(referenceDate.getUTCSeconds());
+
+  const startTime = referenceDate;
+  if (referenceTime < goalTime) {
+    startTime.setUTCDate(startTime.getUTCDate() - 1);
+  }
+
+  startTime.setUTCHours(startHour, startMinutes, startSeconds);
+
+  const endTime = new Date(startTime);
+  endTime.setUTCDate(endTime.getUTCDate() + dayTerm);
+  endTime.setUTCHours(startTime.getUTCHours());
+  endTime.setUTCMinutes(startTime.getUTCMinutes());
+  endTime.setUTCSeconds(startTime.getUTCSeconds());
+
+  return { startTime, endTime };
+};

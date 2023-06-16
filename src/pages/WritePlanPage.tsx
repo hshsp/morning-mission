@@ -147,7 +147,6 @@ const WritePlanPage = () => {
   return (
     <Root>
       <Container>
-        <Gap gap={100} />
         <TimeLabel>
           {`${getMonth(currentDate)}월 ${getDate(currentDate)}일 ${getDayKorean(
             currentDate
@@ -220,11 +219,13 @@ const Root = styled.div`
 `;
 
 const Container = styled.div`
+  width: 100%;
+  height: 100%;
+
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   width: ${PxToVw(MOBILE_DEFAULT_WIDTH)};
-  min-height: ${PxToVw(MOBILE_DEFAULT_HEIGHT)};
   max-height: ${PxToVw(MOBILE_DEFAULT_HEIGHT)};
   box-sizing: border-box;
 `;

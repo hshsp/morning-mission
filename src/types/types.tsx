@@ -16,3 +16,8 @@ export interface UserPlan {
   email: string;
   plan: PlanContainer[];
 }
+
+export interface MoreMenu {
+  title: string;
+  goToPath: string;
+}

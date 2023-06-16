@@ -1,2 +1,2 @@
 export const MOBILE_DEFAULT_WIDTH = 393;
-export const MOBILE_DEFAULT_HEIGHT = 852;
+export const MOBILE_DEFAULT_HEIGHT = 1000;
