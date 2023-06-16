@@ -12,6 +12,8 @@ interface Props {}
 const MoreMenuPage: React.FC<Props> = (props: Props) => {
   const menus: MoreMenu[] = [
     { title: "비밀번호 변경하기", goToPath: "/change-password" },
+    { title: "FAQ", goToPath: "/faq" },
+    { title: "Creator", goToPath: "/creator" },
   ];
   const navigate = useNavigate();
 

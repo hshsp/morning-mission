@@ -13,6 +13,8 @@ import MoreMenuPage from "./pages/MoreMenuPage";
 import ChangePassword from "./pages/ChangePassword";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import FAQPage from "./pages/FAQPage";
+import OwnerPage from "./pages/OwnerPage";
 
 console.log(`ENV : ${process.env.REACT_APP_ENV}`);
 console.log(`CURRENT_VER : ${process.env.REACT_APP_CURRENT_VER}`);
@@ -37,6 +39,14 @@ const router = createBrowserRouter([
   {
     path: "/change-password",
     element: <ChangePassword />,
+  },
+  {
+    path: "/faq",
+    element: <FAQPage />,
+  },
+  {
+    path: "/creator",
+    element: <OwnerPage />,
   },
 ]);
 
