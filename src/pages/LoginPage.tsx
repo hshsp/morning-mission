@@ -50,7 +50,6 @@ const LoginPage = ({}: Props) => {
         <Gap gap={20} />
         <SaveLogin
           onClick={() => {
-            // TODO 로그인 정보 기억하기
             setIsSaveLogin((prev) => !prev);
           }}
           isSaveLogin={isSaveLogin}
@@ -65,6 +64,7 @@ const LoginPage = ({}: Props) => {
               const res = await axios.post(api.login(), {
                 email: email,
                 password: password,
+                autoLogin: isSaveLogin ? true : false,
               });
 
               console.log(res);
@@ -93,7 +93,8 @@ const Root = styled.div`
 
 const Container = styled.div`
   width: ${PxToVw(MOBILE_DEFAULT_WIDTH)};
-  min-height: ${PxToVw(MOBILE_DEFAULT_HEIGHT)};
+  box-sizing: border-box;
+  height: 100%;
   max-height: ${PxToVw(MOBILE_DEFAULT_HEIGHT)};
 
   padding: 0 ${PxToVw(20)};

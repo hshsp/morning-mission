@@ -44,6 +44,7 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   max-height: ${PxToVw(MOBILE_DEFAULT_HEIGHT)};
+  max-width: ${PxToVw(MOBILE_DEFAULT_WIDTH)};
 `;
 
 const Gap = styled.div<{ gap: number }>`

@@ -11,6 +11,8 @@ import ListPlanPage from "./pages/ListPlanPage";
 import { setInitAxioSetting } from "./network/api";
 import MoreMenuPage from "./pages/MoreMenuPage";
 import ChangePassword from "./pages/ChangePassword";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 console.log(`ENV : ${process.env.REACT_APP_ENV}`);
 console.log(`CURRENT_VER : ${process.env.REACT_APP_CURRENT_VER}`);
@@ -45,7 +47,12 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <React.Fragment>
+      <ToastContainer />
+      {/* Same as */}
+      <ToastContainer />
+      <RouterProvider router={router} />
+    </React.Fragment>
   </React.StrictMode>
 );
 

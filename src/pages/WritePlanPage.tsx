@@ -90,7 +90,13 @@ const WritePlanPage = () => {
     const hour = date.getHours();
     const min = date.getMinutes();
 
-    if (hour === 7 || hour === 8 || (hour === 9 && min === 0)) {
+    if (
+      hour === 5 ||
+      hour === 6 ||
+      hour === 7 ||
+      hour === 8 ||
+      (hour === 9 && min === 0)
+    ) {
       setResultText("지금 인증하면 성공");
       setResultColor("#2F80ED");
       return;
@@ -219,7 +225,6 @@ const Root = styled.div`
 `;
 
 const Container = styled.div`
-  width: 100%;
   height: 100%;
 
   display: flex;

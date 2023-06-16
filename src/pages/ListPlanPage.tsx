@@ -82,7 +82,13 @@ const ListPlanPage = () => {
     const hour = date.getHours();
     const min = date.getMinutes();
 
-    if (hour === 7 || hour === 8 || (hour === 9 && min === 0)) {
+    if (
+      hour === 5 ||
+      hour === 6 ||
+      hour === 7 ||
+      hour === 8 ||
+      (hour === 9 && min === 0)
+    ) {
       setResultColor("#2F80ED");
       return;
     }
@@ -101,51 +107,55 @@ const ListPlanPage = () => {
   };
 
   const init = async () => {
-    const resAllPlanOthers = (await axios.get(api.getAllPlanOthers())).data;
+    try {
+      const resAllPlanOthers = (await axios.get(api.getAllPlanOthers())).data;
 
-    console.log(resAllPlanOthers);
+      console.log(resAllPlanOthers);
 
-    const defaultPlanList = resAllPlanOthers.map((item: any) => ({
-      ...item,
-      plan: item.plan.map((planItem: any) => {
-        const obj = planItem.contents;
+      const defaultPlanList = resAllPlanOthers.map((item: any) => ({
+        ...item,
+        plan: item.plan.map((planItem: any) => {
+          const obj = planItem.contents;
+          const arr = [];
+          for (let key in obj) {
+            if (obj.hasOwnProperty(key)) {
+              if (obj[key].plan.time) {
+                arr.push(obj[key].plan);
+              }
+            }
+          }
+          return {
+            ...planItem,
+            contents: arr,
+          };
+        }),
+      }));
+      console.log(defaultPlanList);
+      setPlanList(defaultPlanList);
+
+      const resMyPlan = (await axios.get(api.getMyPlan())).data;
+
+      console.log(resMyPlan);
+
+      if (resMyPlan) {
+        const obj = { ...resMyPlan.contents };
         const arr = [];
         for (let key in obj) {
           if (obj.hasOwnProperty(key)) {
-            if (obj[key].plan.time) {
-              arr.push(obj[key].plan);
-            }
+            arr.push(obj[key].plan);
           }
         }
-        return {
-          ...planItem,
+        const defaultMyPlan = {
+          ...resMyPlan,
           contents: arr,
         };
-      }),
-    }));
-    console.log(defaultPlanList);
-    setPlanList(defaultPlanList);
-
-    const resMyPlan = (await axios.get(api.getMyPlan())).data;
-
-    console.log(resMyPlan);
-
-    if (resMyPlan) {
-      const obj = { ...resMyPlan.contents };
-      const arr = [];
-      for (let key in obj) {
-        if (obj.hasOwnProperty(key)) {
-          arr.push(obj[key].plan);
-        }
+        console.log(defaultMyPlan);
+        setMyPlan(defaultMyPlan);
+      } else {
+        setMyPlan(undefined);
       }
-      const defaultMyPlan = {
-        ...resMyPlan,
-        contents: arr,
-      };
-      console.log(defaultMyPlan);
-      setMyPlan(defaultMyPlan);
-    } else {
-      setMyPlan(undefined);
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -237,7 +247,9 @@ const ListPlanPage = () => {
                 paddingTop={10}
                 text="인증하기"
                 backgroundColor={resultColor}
-                onClick={() => {}}
+                onClick={() => {
+                  navigate("/write-plan");
+                }}
               />
             </EmptyMyPlan>
           )}
@@ -315,8 +327,9 @@ const Root = styled.div`
 
 const StickyContainer = styled.div`
   width: 100%;
-  height: 100%;
+  height: ${PxToVw(MOBILE_DEFAULT_HEIGHT)};
   max-height: ${PxToVw(MOBILE_DEFAULT_HEIGHT)};
+  max-width: ${PxToVw(MOBILE_DEFAULT_WIDTH)};
 
   position: relative;
 `;

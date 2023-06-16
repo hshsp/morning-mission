@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import Button from "../components/Button";
@@ -5,10 +6,14 @@ import Input from "../components/Input";
 import MenuTitleLayout from "../components/layout/MenuTitleLayout";
 import { MOBILE_DEFAULT_HEIGHT, MOBILE_DEFAULT_WIDTH } from "../data/constants";
 import { PxToVw } from "../util/styleUtil";
+import * as api from "../network/api";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 interface Props {}
 
 const ChangePassword: React.FC<Props> = (props: Props) => {
+  const navigate = useNavigate();
   const [originalPassword, setOriginalPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
 
@@ -19,7 +24,7 @@ const ChangePassword: React.FC<Props> = (props: Props) => {
       <Container>
         <MenuTitleLayout title="비밀번호 변경하기" />
         <Gap gap={40} />
-        <Block>
+        {/* <Block>
           <div className="label">현재 비밀번호</div>
           <Gap gap={10} />
           <Input
@@ -36,7 +41,7 @@ const ChangePassword: React.FC<Props> = (props: Props) => {
             </ErrorMessage>
           )}
         </Block>
-        <Gap gap={20} />
+        <Gap gap={20} /> */}
         <Block>
           <div className="label">새 비밀번호</div>
           <Gap gap={10} />
@@ -45,7 +50,14 @@ const ChangePassword: React.FC<Props> = (props: Props) => {
             placeholder="변경할 비밀번호를 입력해주세요."
             onChange={(input) => setNewPassword(input)}
             isPassword={true}
+            borderColor={isError ? "#df1525" : ""}
           />
+          {isError && (
+            <ErrorMessage isError={isError}>
+              <Gap gap={10} />
+              <div>비밀번호가 변경되지 않았습니다.</div>
+            </ErrorMessage>
+          )}
         </Block>
         <Gap gap={40} />
         <ButtonContainer>
@@ -53,9 +65,31 @@ const ChangePassword: React.FC<Props> = (props: Props) => {
             width={353}
             text="비밀번호 변경하기"
             backgroundColor="#2F80ED"
-            disabled={!originalPassword || !newPassword}
-            onClick={() => {
-              // TODO api 호출
+            disabled={!newPassword}
+            onClick={async () => {
+              const res = await axios.patch(api.patchUserPassword(), {
+                password: newPassword,
+              });
+
+              if (res.status === 200) {
+                console.log("성공 !");
+                toast("비밀번호를 변경했습니다. 다시 로그인해 주세요.", {
+                  position: "bottom-center",
+                  autoClose: 3000,
+                  hideProgressBar: false,
+                  // newestOnTop: false,
+                  // closeOnClick,
+                  rtl: false,
+                  // pauseOnFocusLoss,
+                  // draggable,
+                  // pauseOnHover,
+                  theme: "light",
+                });
+
+                navigate("/");
+                return;
+              }
+
               setIsError(true);
             }}
           />
@@ -78,6 +112,7 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   max-height: ${PxToVw(MOBILE_DEFAULT_HEIGHT)};
+  max-width: ${PxToVw(MOBILE_DEFAULT_WIDTH)};
 `;
 
 const Gap = styled.div<{ gap: number }>`
