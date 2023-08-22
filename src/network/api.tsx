@@ -55,8 +55,6 @@ export const setInitAxioSetting = () => {
   interceptor();
 };
 
-export const temp = (): string => `temp`;
-
 export const login = (): string => `/user/login`;
 export const getRefreshToken = (): string => `/user/refresh`;
 export const postPlan = (): string => `/plan`;
