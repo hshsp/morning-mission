@@ -1,46 +1,37 @@
-# Getting Started with Create React App
+## Morning mission (기상 인증)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+아침에 일어나자마자 그 날의 목표 3개를 적어 기상 인증을 합니다.
 
-## Available Scripts
+목표를 작성하고 이를 사람들과 공유해요!
 
-In the project directory, you can run:
+`사용 기술 : React, TypeScript, react-router-dom, styled-components, react-sortablejs`
 
-### `npm start`
+1. 로그인
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+   <img src="./public/sample_image/로그인.png"  width="300" border="1px solid black">
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+<br/>
 
-### `npm test`
+2. 하루의 목표 3개 적기
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+   <img src="./public/sample_image/목표 작성.png"  width="300" border="1px solid black">
 
-### `npm run build`
+<br/>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3. 내 목표와 다른 사람들 목표 확인하기
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+   <img src="./public/sample_image/목표 리스트.png"  width="300" border="1px solid black">
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<br/>
 
-### `npm run eject`
+4. 내 목표 기록 보기
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+   <img src="./public/sample_image/내 기록 보기.png"  width="300" border="1px solid black">
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+<br/>
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+5. 내 목표 수정하기
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+   <img src="./public/sample_image/목표 수정.png"  width="300" border="1px solid black">
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+<br/>
