@@ -18,7 +18,7 @@ const HistoryCard = (props: Props) => {
       case 3:
         return "#FFECEF";
     }
-    return "#DFF1FF";
+    return "#F2F4F6";
   };
   return (
     <Container
