@@ -1,10 +1,31 @@
-## Morning mission (기상 인증)
+# Morning mission (기상 인증)
+
+   <img src="./public/sample_image/morningee.png"  width="300" border="1px solid black">
+
+## 소개
+
+---
 
 아침에 일어나자마자 그 날의 목표 3개를 적어 기상 인증을 합니다.
-
 목표를 작성하고 이를 사람들과 공유해요!
 
-`사용 기술 : React, TypeScript, react-router-dom, styled-components, react-sortablejs`
+## 백엔드
+
+---
+
+https://github.com/Wunhyeon/goodMorning-server.git
+
+현재는 처음 clone 받아 실행하면 백엔드 없이도 mocking api로 덤프데이터가 보이도록 했습니다.
+
+## 사용 기술
+
+---
+
+React, TypeScript, react-router-dom, styled-components, axios, msw
+
+## 화면
+
+---
 
 1. 로그인
 
