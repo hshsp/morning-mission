@@ -19,6 +19,13 @@ import OwnerPage from "./pages/OwnerPage";
 console.log(`ENV : ${process.env.REACT_APP_ENV}`);
 console.log(`CURRENT_VER : ${process.env.REACT_APP_CURRENT_VER}`);
 
+if (process.env.REACT_APP_ENV !== undefined) {
+  setInitAxioSetting();
+} else {
+  const { worker } = require("./mocks/browser");
+  worker.start();
+}
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -49,8 +56,6 @@ const router = createBrowserRouter([
     element: <OwnerPage />,
   },
 ]);
-
-setInitAxioSetting();
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

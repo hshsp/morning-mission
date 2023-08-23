@@ -120,7 +120,13 @@ const WritePlanPage = () => {
   const initPlan = async () => {
     const res = (await axios.get(api.getMyPlan())).data;
 
-    if (res) {
+    console.log(res);
+
+    if (
+      res &&
+      Object.keys(res).length > 0 &&
+      process.env.REACT_APP_ENV !== undefined
+    ) {
       navigate("/list-plan");
     }
   };
