@@ -76,6 +76,8 @@ const LoginPage = ({}: Props) => {
           }}
           text="로그인"
           disabled={!email || !password}
+          size="large"
+          colorType="success"
         />
       </Container>
     </Root>

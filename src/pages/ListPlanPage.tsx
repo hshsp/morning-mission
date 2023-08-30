@@ -38,7 +38,9 @@ const ListPlanPage = () => {
   const [myPlan, setMyPlan] = useState<PlanContainer>();
 
   const [resultText, setResultText] = useState<string>("");
-  const [resultColor, setResultColor] = useState<string>("");
+  const [result, setResult] = useState<"success" | "half-success" | "fail">(
+    "success"
+  );
 
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
@@ -64,15 +66,16 @@ const ListPlanPage = () => {
       switch (myPlan.isSuccess) {
         case 1:
           setResultText(`오늘 인증 성공 ${creationTime}`);
-          setResultColor("#2F80ED");
+          setResult("success");
           return;
         case 2:
           setResultText(`오늘 인증 반절 성공 ${creationTime}`);
-          setResultColor("#39CA76");
+          setResult("half-success");
+
           return;
         case 3:
           setResultText(`오늘 인증 실패 ${creationTime}`);
-          setResultColor("#DF1525");
+          setResult("fail");
           return;
       }
     }
@@ -89,7 +92,7 @@ const ListPlanPage = () => {
       hour === 8 ||
       (hour === 9 && min === 0)
     ) {
-      setResultColor("#2F80ED");
+      setResult("success");
       return;
     }
 
@@ -99,11 +102,11 @@ const ListPlanPage = () => {
       hour === 11 ||
       (hour === 12 && min === 0)
     ) {
-      setResultColor("#39CA76");
+      setResult("half-success");
       return;
     }
 
-    setResultColor("#DF1525");
+    setResult("fail");
   };
 
   const init = async () => {
@@ -209,9 +212,7 @@ const ListPlanPage = () => {
           {myPlan && myPlan.contents && myPlan.contents.length > 0 ? (
             <>
               <RowSpaceBetween>
-                <ResultChip backgroundColor={resultColor}>
-                  {resultText}
-                </ResultChip>
+                <ResultChip result={result}>{resultText}</ResultChip>
 
                 <EditDeleteButtons>
                   <EditDeleteButton onClick={() => setIsDeleteModalOpen(true)}>
@@ -244,13 +245,13 @@ const ListPlanPage = () => {
             <EmptyMyPlan>
               <span>작성한 내용이 없습니다.</span>
               <Button
-                width={109}
-                paddingTop={10}
                 text="인증하기"
-                backgroundColor={resultColor}
+                colorType={result}
+                size="small"
                 onClick={() => {
                   navigate("/write-plan");
                 }}
+                disabled={false}
               />
             </EmptyMyPlan>
           )}
@@ -284,7 +285,7 @@ const ListPlanPage = () => {
         {isEditModalOpen && (
           <EditPlanModal
             defaultPlans={myPlan?.contents}
-            resultColor={resultColor}
+            result={result}
             resultText={resultText}
             onClickClose={() => setIsEditModalOpen(false)}
             onRefresh={() => {
@@ -387,10 +388,19 @@ const RowSpaceBetween = styled.div`
   align-items: center;
 `;
 
-const ResultChip = styled.div<{ backgroundColor?: string }>`
+const ResultChip = styled.div<{ result: "success" | "half-success" | "fail" }>`
   padding: ${PxToVw(8)} ${PxToVw(16)};
   border-radius: ${PxToVw(10)};
-  background: ${(props) => props.backgroundColor || "#2F80ED"};
+  background: ${(props) => {
+    switch (props.result) {
+      case "success":
+        return "#2F80ED";
+      case "half-success":
+        return "#39CA76";
+      case "fail":
+        return "#DF1525";
+    }
+  }};
 
   font-family: "SUIT";
   font-style: normal;

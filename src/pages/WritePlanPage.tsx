@@ -38,7 +38,9 @@ const WritePlanPage = () => {
   );
 
   const [resultText, setResultText] = useState<string>("");
-  const [resultColor, setResultColor] = useState<string>("");
+  const [result, setResult] = useState<"success" | "half-success" | "fail">(
+    "success"
+  );
 
   const defaultResult = useRef<number>();
 
@@ -66,20 +68,20 @@ const WritePlanPage = () => {
 
   const updateResult = () => {
     if (defaultResult.current && defaultResult.current > 0) {
-      if (resultColor && resultText) return;
+      if (resultText) return;
 
       switch (defaultResult.current) {
         case 1:
           setResultText("지금 인증하면 성공");
-          setResultColor("#2F80ED");
+          setResult("success");
           return;
         case 2:
           setResultText("지금 인증하면 반절 성공");
-          setResultColor("#39CA76");
+          setResult("half-success");
           return;
         case 3:
           setResultText("지금 인증하면 실패");
-          setResultColor("#DF1525");
+          setResult("fail");
           return;
       }
     }
@@ -98,7 +100,7 @@ const WritePlanPage = () => {
       (hour === 9 && min === 0)
     ) {
       setResultText("지금 인증하면 성공");
-      setResultColor("#2F80ED");
+      setResult("success");
       return;
     }
 
@@ -109,12 +111,12 @@ const WritePlanPage = () => {
       (hour === 12 && min === 0)
     ) {
       setResultText("지금 인증하면 반절 성공");
-      setResultColor("#39CA76");
+      setResult("half-success");
       return;
     }
 
     setResultText("지금 인증하면 실패");
-    setResultColor("#DF1525");
+    setResult("fail");
   };
 
   const initPlan = async () => {
@@ -168,7 +170,7 @@ const WritePlanPage = () => {
         </TimeLabel>
         <Gap gap={60} />
 
-        <SuccessLabel color={resultColor}>{resultText}</SuccessLabel>
+        <SuccessLabel result={result}>{resultText}</SuccessLabel>
         <Gap gap={12} />
         <Title>{`오늘의 가장 중요한 일\n3개를 작성해주세요`}</Title>
 
@@ -209,11 +211,11 @@ const WritePlanPage = () => {
         <Gap gap={143} />
         <ButtonContainer>
           <Button
-            width={353}
+            size="large"
+            colorType={result}
             disabled={!isConfirmable}
             onClick={onClickButton}
             text={"인증하기"}
-            backgroundColor={resultColor}
           />
         </ButtonContainer>
       </Container>
@@ -268,7 +270,9 @@ const TimeLabel = styled.div`
   text-align: center;
 `;
 
-const SuccessLabel = styled.div<{ color: string }>`
+const SuccessLabel = styled.div<{
+  result: "success" | "half-success" | "fail";
+}>`
   width: 100%;
   font-family: "SUIT";
   font-style: normal;
@@ -279,7 +283,16 @@ const SuccessLabel = styled.div<{ color: string }>`
 
   letter-spacing: -0.02em;
 
-  color: ${(props) => props.color};
+  color: ${(props) => {
+    switch (props.result) {
+      case "success":
+        return "#2F80ED";
+      case "half-success":
+        return "#39CA76";
+      case "fail":
+        return "#DF1525";
+    }
+  }};
 
   text-align: start;
 

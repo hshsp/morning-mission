@@ -16,13 +16,14 @@ const FAQPage: React.FC<Props> = (props: Props) => {
 
         <ButtonContainer>
           <Button
-            width={353}
+            size="large"
+            colorType="success"
             text="FAQ로 이동하기"
-            backgroundColor="#2F80ED"
             onClick={() => {
               const link = `https://joey.team/block?block_id=VdVvtB0F3eNbkKqCoxGT&id=9cU5pLkasKPZCLb5piwAqg3C9OF2`;
               window.open(link);
             }}
+            disabled={false}
           />
         </ButtonContainer>
       </Container>

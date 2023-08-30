@@ -62,9 +62,9 @@ const ChangePassword: React.FC<Props> = (props: Props) => {
         <Gap gap={40} />
         <ButtonContainer>
           <Button
-            width={353}
             text="비밀번호 변경하기"
-            backgroundColor="#2F80ED"
+            size="large"
+            colorType="success"
             disabled={!newPassword}
             onClick={async () => {
               const res = await axios.patch(api.patchUserPassword(), {

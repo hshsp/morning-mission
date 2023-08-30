@@ -15,7 +15,7 @@ import { Plan } from "../types/types";
 interface Props {
   defaultPlans?: Plan[];
   resultText?: string;
-  resultColor?: string;
+  result: "success" | "half-success" | "fail";
   onClickClose?: () => void;
   onRefresh?: () => void;
 }
@@ -118,7 +118,8 @@ const EditPlanModal = (props: Props) => {
           disabled={!isConfirmable}
           onClick={onClickButton}
           text={"인증하기"}
-          backgroundColor={props.resultColor}
+          size="large"
+          colorType={props.result}
         />
       </Contents>
     </Container>
