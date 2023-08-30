@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import Button from "../components/Button";
 import Input from "../components/Input";
-import MenuTitleLayout from "../components/layout/MenuTitleLayout";
+import MenuTitleLayout from "../layout/MenuTitleLayout";
 import { MOBILE_DEFAULT_HEIGHT, MOBILE_DEFAULT_WIDTH } from "../data/constants";
 import { PxToVw } from "../util/styleUtil";
 import * as api from "../network/api";

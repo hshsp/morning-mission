@@ -1,8 +1,8 @@
 import React, { PropsWithChildren } from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
-import { ReactComponent as ButtonBack } from "../../svg/ButtonBack.svg";
-import { PxToVw } from "../../util/styleUtil";
+import { ReactComponent as ButtonBack } from "../svg/ButtonBack.svg";
+import { PxToVw } from "../util/styleUtil";
 
 interface Props {
   title: string;
